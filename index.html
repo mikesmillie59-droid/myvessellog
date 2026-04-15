@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Vessel Log — Personalised Boat Maintenance Apps</title>
+<meta name="description" content="A personalised boat maintenance app built specifically for your vessel. Track engine hours, service intervals and maintenance history — all in one place on your phone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #0B1C2E;
+  --navy2:  #112338;
+  --navy3:  #1A3450;
+  --teal:   #3DBFB8;
+  --brass:  #C8922A;
+  --brass2: #E8B84B;
+  --cream:  #F5F0E8;
+  --cream2: #EDE8DC;
+  --white:  #FFFFFF;
+  --muted:  #8BAABF;
+  --text:   #1A2A3A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── NAVIGATION ─────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2.5rem;
+  background: rgba(11,28,46,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(61,191,184,0.15);
+}
+
+.nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+.nav-logo-text { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); letter-spacing: 0.03em; }
+.nav-logo-text span { color: var(--teal); }
+
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--brass); color: var(--navy) !important; font-weight: 600 !important;
+  padding: 0.5rem 1.25rem; border-radius: 4px; transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--brass2) !important; }
+
+/* ── HERO ───────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 7rem 2.5rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(61,191,184,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 20% 80%, rgba(200,146,42,0.04) 0%, transparent 60%),
+    linear-gradient(160deg, #0B1C2E 0%, #0D2135 50%, #091929 100%);
+}
+
+.hero-grid {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(61,191,184,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,191,184,0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.hero-content {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(61,191,184,0.1); border: 1px solid rgba(61,191,184,0.25);
+  color: var(--teal); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.35rem 0.85rem; border-radius: 2px; margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 900; line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title em { color: var(--teal); font-style: normal; }
+
+.hero-sub {
+  font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.7;
+  margin-bottom: 2.5rem; font-weight: 300;
+}
+
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--brass); color: var(--navy);
+  font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 1rem;
+  padding: 0.85rem 2rem; border-radius: 4px; text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  border: none; cursor: pointer;
+}
+.btn-primary:hover { background: var(--brass2); transform: translateY(-1px); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: transparent; color: var(--white);
+  font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 1rem;
+  padding: 0.85rem 2rem; border-radius: 4px; text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.25);
+  transition: border-color 0.2s, transform 0.15s;
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.6); transform: translateY(-1px); }
+
+/* Hero phone mockup */
+.hero-visual {
+  display: flex; justify-content: center; align-items: center;
+  position: relative;
+}
+
+.phone-frame {
+  width: 280px;
+  background: #0D1F35;
+  border: 2px solid rgba(61,191,184,0.3);
+  border-radius: 36px;
+  padding: 1rem;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(61,191,184,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+  position: relative;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+.phone-notch {
+  width: 80px; height: 6px; background: #0a1520;
+  border-radius: 3px; margin: 0 auto 1rem;
+}
+
+.phone-screen { background: #0B1C2E; border-radius: 24px; overflow: hidden; }
+
+.ps-header {
+  background: #0D2135; padding: 0.75rem 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  border-bottom: 1px solid rgba(61,191,184,0.15);
+}
+
+.ps-anchor { font-size: 1rem; }
+
+.ps-title-block {}
+.ps-title { font-family: 'Playfair Display', serif; font-size: 0.75rem; color: var(--brass2); font-weight: 700; }
+.ps-vessel { font-size: 0.6rem; color: var(--muted); }
+
+.ps-hrs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; padding: 0.6rem;
+}
+.ps-hr-box {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(61,191,184,0.15);
+  border-radius: 6px; padding: 0.4rem 0.5rem;
+}
+.ps-hr-label { font-size: 0.45rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.ps-hr-val { font-size: 1rem; font-weight: 700; color: var(--teal); }
+
+.ps-tasks { padding: 0.4rem 0.6rem; }
+.ps-task-label { font-size: 0.5rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+
+.ps-task {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.4rem 0.5rem; border-radius: 5px; margin-bottom: 0.3rem;
+  border-left: 2px solid transparent;
+}
+.ps-task.green  { background: rgba(46,125,82,0.15);  border-left-color: #2E7D52; }
+.ps-task.amber  { background: rgba(200,146,42,0.15); border-left-color: var(--brass); }
+.ps-task.red    { background: rgba(180,50,50,0.15);  border-left-color: #B43232; }
+
+.ps-task-name { font-size: 0.55rem; color: rgba(255,255,255,0.85); }
+.ps-task-freq { font-size: 0.48rem; color: var(--muted); }
+.ps-task-badge { font-size: 0.45rem; font-weight: 600; padding: 0.1rem 0.35rem; border-radius: 3px; }
+.green  .ps-task-badge { background: rgba(46,125,82,0.3); color: #5DBF8A; }
+.amber  .ps-task-badge { background: rgba(200,146,42,0.3); color: var(--brass2); }
+.red    .ps-task-badge { background: rgba(180,50,50,0.3); color: #E87070; }
+
+.ps-nav {
+  display: grid; grid-template-columns: repeat(5,1fr);
+  border-top: 1px solid rgba(61,191,184,0.1);
+  padding: 0.5rem 0 0.3rem;
+}
+.ps-nav-item { text-align: center; font-size: 0.42rem; color: var(--muted); }
+.ps-nav-item.active { color: var(--brass2); }
+.ps-nav-icon { font-size: 0.9rem; display: block; }
+
+/* ── LOGOS / TRUST BAR ─────────────────────────────────── */
+.trust-bar {
+  background: rgba(255,255,255,0.02);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 1.5rem 2.5rem;
+  text-align: center;
+}
+.trust-bar p { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+.trust-engines {
+  display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+}
+.trust-engines span { font-size: 0.85rem; color: rgba(255,255,255,0.5); font-weight: 600; }
+
+/* ── SECTIONS ───────────────────────────────────────────── */
+section { padding: 6rem 2.5rem; }
+
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.section-eyebrow {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 700; line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+.section-sub {
+  font-size: 1.05rem; color: rgba(255,255,255,0.65); line-height: 1.7;
+  max-width: 580px; font-weight: 300;
+}
+
+/* ── HOW IT WORKS ───────────────────────────────────────── */
+.how { background: var(--navy2); }
+
+.steps {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 3.5rem;
+}
+
+.step {
+  position: relative; padding: 2rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+.step:hover { border-color: rgba(61,191,184,0.3); }
+
+.step-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem; font-weight: 900; line-height: 1;
+  color: rgba(61,191,184,0.15); margin-bottom: 1rem;
+}
+
+.step h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
+.step p { font-size: 0.95rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+.step-connector {
+  position: absolute; top: 2.5rem; right: -1rem;
+  width: 2rem; height: 1px; background: rgba(61,191,184,0.25);
+  display: none;
+}
+
+/* ── FEATURES ───────────────────────────────────────────── */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem;
+}
+
+.feature-card {
+  padding: 1.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.feature-card:hover { transform: translateY(-3px); border-color: rgba(200,146,42,0.3); }
+
+.feature-icon {
+  width: 44px; height: 44px;
+  background: rgba(200,146,42,0.12); border: 1px solid rgba(200,146,42,0.25);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; margin-bottom: 1.1rem;
+}
+
+.feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
+.feature-card p { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+/* ── PRICING ────────────────────────────────────────────── */
+.pricing { background: var(--navy2); }
+
+.pricing-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+  max-width: 780px; margin: 3.5rem auto 0;
+}
+
+.pricing-card {
+  padding: 2.5rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  position: relative;
+}
+
+.pricing-card.featured {
+  background: rgba(61,191,184,0.05);
+  border-color: rgba(61,191,184,0.35);
+}
+
+.pricing-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--teal); color: var(--navy);
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.25rem 0.85rem; border-radius: 20px;
+}
+
+.pricing-tier { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.pricing-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+
+.pricing-amount { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 0.35rem; }
+.pricing-currency { font-size: 1.2rem; color: var(--muted); }
+.pricing-price { font-size: 3rem; font-weight: 700; line-height: 1; }
+.pricing-period { font-size: 0.9rem; color: var(--muted); }
+.pricing-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+
+.pricing-features { list-style: none; margin-bottom: 2rem; }
+.pricing-features li {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.9rem; color: rgba(255,255,255,0.75); padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.pricing-features li:last-child { border-bottom: none; }
+.pricing-features li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; margin-top: 0.05rem; }
+
+.btn-tier1 {
+  display: block; text-align: center; text-decoration: none;
+  background: rgba(255,255,255,0.08); color: var(--white);
+  font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 0.95rem;
+  padding: 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);
+  transition: background 0.2s;
+}
+.btn-tier1:hover { background: rgba(255,255,255,0.14); }
+
+.btn-tier2 {
+  display: block; text-align: center; text-decoration: none;
+  background: var(--brass); color: var(--navy);
+  font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.95rem;
+  padding: 0.85rem; border-radius: 6px;
+  transition: background 0.2s;
+}
+.btn-tier2:hover { background: var(--brass2); }
+
+/* ── TESTIMONIALS ───────────────────────────────────────── */
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem;
+}
+
+.testimonial-card {
+  padding: 1.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+}
+
+.testimonial-stars { color: var(--brass2); font-size: 0.85rem; margin-bottom: 1rem; }
+.testimonial-text { font-size: 0.95rem; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
+.testimonial-author { font-size: 0.85rem; font-weight: 600; }
+.testimonial-vessel { font-size: 0.8rem; color: var(--muted); }
+
+/* ── CTA ────────────────────────────────────────────────── */
+.cta-section {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(61,191,184,0.08) 0%, rgba(200,146,42,0.05) 100%);
+  border-top: 1px solid rgba(61,191,184,0.15);
+  border-bottom: 1px solid rgba(61,191,184,0.15);
+}
+
+.cta-section .section-title { margin-bottom: 1rem; }
+.cta-section .section-sub { margin: 0 auto 2.5rem; }
+.cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer {
+  padding: 3rem 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+
+.footer-logo { display: flex; align-items: center; gap: 0.6rem; }
+.footer-logo-text { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: rgba(255,255,255,0.6); }
+.footer-logo-text span { color: var(--teal); }
+.footer-copy { font-size: 0.8rem; color: var(--muted); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+.footer-links a:hover { color: var(--white); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.25rem; }
+  .nav-links { display: none; }
+  .hero { padding: 6rem 1.25rem 3rem; }
+  .hero-content { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-visual { order: -1; }
+  section { padding: 4rem 1.25rem; }
+  .steps { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .features-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="15" fill="#0D2135" stroke="#3DBFB8" stroke-width="1.2"/>
+      <line x1="16" y1="6" x2="16" y2="26" stroke="#3DBFB8" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="10" y1="12" x2="22" y2="12" stroke="#3DBFB8" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M10 22 Q16 26 22 22" stroke="#C8922A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="16" cy="8" r="2" fill="#C8922A"/>
+    </svg>
+    <span class="nav-logo-text">My Vessel <span>Log</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#order" class="nav-cta">Get started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-eyebrow">
+        <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#3DBFB8"/></svg>
+        Built for trawler & motor cruiser owners
+      </div>
+      <h1 class="hero-title">Your boat.<br>Your engines.<br><em>Your app.</em></h1>
+      <p class="hero-sub">A personalised maintenance app built specifically for your vessel — pre-loaded with your engine hours, service history and the exact intervals your engines need. On your phone. Works offline.</p>
+      <div class="hero-actions">
+        <a href="#order" class="btn-primary">Get your app →</a>
+        <a href="#how" class="btn-secondary">See how it works</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="ps-header">
+            <span class="ps-anchor">⚓</span>
+            <div class="ps-title-block">
+              <div class="ps-title">MY VESSEL LOG</div>
+              <div class="ps-vessel">Grand Banks 42 · Twin Ford Lehman</div>
+            </div>
+          </div>
+          <div class="ps-hrs">
+            <div class="ps-hr-box">
+              <div class="ps-hr-label">Port Hrs</div>
+              <div class="ps-hr-val">3,641</div>
+            </div>
+            <div class="ps-hr-box">
+              <div class="ps-hr-label">Stbd Hrs</div>
+              <div class="ps-hr-val">3,638</div>
+            </div>
+          </div>
+          <div class="ps-tasks">
+            <div class="ps-task-label">Engine Tasks</div>
+            <div class="ps-task green">
+              <div><div class="ps-task-name">Oil &amp; Filters</div><div class="ps-task-freq">200 hrs</div></div>
+              <div class="ps-task-badge">+84hrs</div>
+            </div>
+            <div class="ps-task amber">
+              <div><div class="ps-task-name">Injector Oil</div><div class="ps-task-freq">50 hrs</div></div>
+              <div class="ps-task-badge">+12hrs</div>
+            </div>
+            <div class="ps-task red">
+              <div><div class="ps-task-name">Zinc Pencils</div><div class="ps-task-freq">3 monthly</div></div>
+              <div class="ps-task-badge">Overdue</div>
+            </div>
+            <div class="ps-task green">
+              <div><div class="ps-task-name">Raw Water Impeller</div><div class="ps-task-freq">annual</div></div>
+              <div class="ps-task-badge">177d</div>
+            </div>
+          </div>
+          <div class="ps-nav">
+            <div class="ps-nav-item active"><span class="ps-nav-icon">📊</span>Dash</div>
+            <div class="ps-nav-item"><span class="ps-nav-icon">⚙️</span>Engines</div>
+            <div class="ps-nav-item"><span class="ps-nav-icon">📋</span>Log</div>
+            <div class="ps-nav-item"><span class="ps-nav-icon">📦</span>Parts</div>
+            <div class="ps-nav-item"><span class="ps-nav-icon">📤</span>Export</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <p>Engine families supported</p>
+  <div class="trust-engines">
+    <span>Ford Lehman</span>
+    <span>Cummins 6BTA</span>
+    <span>Caterpillar 3208</span>
+    <span>Detroit Diesel</span>
+    <span>Perkins</span>
+    <span>Yanmar</span>
+    <span>Volvo Penta</span>
+    <span>John Deere Marine</span>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-title">Ready to use in 48 hours</h2>
+    <p class="section-sub">No downloads, no app store, no tech skills needed. Just a personalised app on your phone built specifically for your boat.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Fill in your boat details</h3>
+        <p>Complete a short setup form with your vessel name, engine make, current hours and any maintenance history you have. Takes about 5 minutes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>We build your app</h3>
+        <p>We build a personalised app pre-loaded with your vessel details, the correct service intervals for your engines, and your maintenance history baked in from day one.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Install on your phone</h3>
+        <p>Open your unique link in Safari or Chrome and add it to your home screen. It works like a native app — no internet required once installed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-inner">
+    <div class="section-eyebrow">Features</div>
+    <h2 class="section-title">Everything in one place</h2>
+    <p class="section-sub">Built by a boat owner, for boat owners. Everything you need to stay on top of your vessel's maintenance — nothing you don't.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚙️</div>
+        <h3>Engine tracking</h3>
+        <p>Port and starboard engines tracked side by side with correct service intervals for your specific engine make and model.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Dashboard status</h3>
+        <p>Red, amber and green status at a glance. See everything overdue, coming up, and all good — the moment you open the app.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Maintenance log</h3>
+        <p>Full history of every service with dates, hours, photos, notes and cost. Your boat's complete maintenance record in your pocket.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>Parts inventory</h3>
+        <p>Track spare parts on board with part numbers and supplier details. Stock adjusts automatically when you log a task.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Scheduled maintenance</h3>
+        <p>Beyond engines — antifouling, batteries, seacocks, safety gear, generator and more. All your service schedules in one place.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📶</div>
+        <h3>Works offline</h3>
+        <p>Open it once on WiFi and it works fully offline at the marina, at anchor, or wherever you are. Log tasks anywhere, anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Simple, honest pricing</h2>
+    <p class="section-sub">Your app is built specifically for your vessel. Choose the level of ongoing support that suits you.</p>
+    <div class="pricing-grid">
+
+      <div class="pricing-card">
+        <div class="pricing-tier">Tier 1</div>
+        <div class="pricing-name">Setup Only</div>
+        <div class="pricing-amount">
+          <span class="pricing-currency">NZD$</span>
+          <span class="pricing-price">199</span>
+        </div>
+        <div class="pricing-sub">One-off payment. No ongoing fees.</div>
+        <ul class="pricing-features">
+          <li>Personalised app for your vessel</li>
+          <li>Correct intervals for your engines</li>
+          <li>Maintenance history pre-loaded</li>
+          <li>Parts inventory set up</li>
+          <li>Install guide included</li>
+          <li>One round of revisions</li>
+        </ul>
+        <a href="https://buy.stripe.com/7sYfZhfivezj0IWb2T5EY01" class="btn-tier1">Get started →</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most popular</div>
+        <div class="pricing-tier">Tier 2</div>
+        <div class="pricing-name">Setup + Annual</div>
+        <div class="pricing-amount">
+          <span class="pricing-currency">NZD$</span>
+          <span class="pricing-price">199</span>
+        </div>
+        <div class="pricing-sub">Setup fee, then NZD$99/year.</div>
+        <ul class="pricing-features">
+          <li>Everything in Tier 1</li>
+          <li>Unlimited app updates included</li>
+          <li>Email your export summary to us</li>
+          <li>We update your app within 48 hrs</li>
+          <li>New tasks &amp; intervals on request</li>
+          <li>Ongoing support by email</li>
+        </ul>
+        <a href="https://buy.stripe.com/6oUaEX4DR9eZ63g9YP5EY00" class="btn-tier2">Get started →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="section-eyebrow">From the fleet</div>
+    <h2 class="section-title">What owners are saying</h2>
+    <p class="section-sub">Real feedback from trawler and motor cruiser owners using My Vessel Log on their boats right now.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Exactly what I've been looking for. All my Ford Lehman service intervals pre-loaded and the dashboard tells me at a glance what needs attention."</p>
+        <div class="testimonial-author">Classic trawler owner</div>
+        <div class="testimonial-vessel">Twin Ford Lehman 120 · New Zealand</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Works perfectly offline at anchor. I can log maintenance tasks on the water and sync when I'm back at the marina. Really well thought out."</p>
+        <div class="testimonial-author">Motor cruiser owner</div>
+        <div class="testimonial-vessel">Twin Cummins 6BTA · Australia</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Having the app built specifically for my boat makes all the difference. The service intervals are spot on and the parts inventory saves me so much time."</p>
+        <div class="testimonial-author">Classic trawler owner</div>
+        <div class="testimonial-vessel">Twin Cat 3208 TA · Ireland</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="order">
+  <div class="section-inner">
+    <div class="section-eyebrow">Get started</div>
+    <h2 class="section-title">Ready to take control of your boat's maintenance?</h2>
+    <p class="section-sub">Fill in your boat details and we'll have your personalised app ready within 48 hours.</p>
+    <div class="cta-actions">
+      <a href="https://mikesmillie59-droid.github.io/myvessel-log/Vessel_Log_Intake_Form.html" class="btn-primary">Order your app →</a>
+      <a href="https://mikesmillie59-droid.github.io/myvessel-log/My_Vessel_Log_Template.html" class="btn-secondary">View demo app</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="15" fill="#0D2135" stroke="#3DBFB8" stroke-width="1.2"/>
+      <line x1="16" y1="6" x2="16" y2="26" stroke="#3DBFB8" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="10" y1="12" x2="22" y2="12" stroke="#3DBFB8" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M10 22 Q16 26 22 22" stroke="#C8922A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="16" cy="8" r="2" fill="#C8922A"/>
+    </svg>
+    <span class="footer-logo-text">My Vessel <span>Log</span></span>
+  </div>
+  <p class="footer-copy">© 2026 My Vessel Log · Built by a boat owner, for boat owners</p>
+  <div class="footer-links">
+    <a href="https://mikesmillie59-droid.github.io/myvessel-log/Vessel_Log_Intake_Form.html">Order</a>
+    <a href="https://mikesmillie59-droid.github.io/myvessel-log/My_Vessel_Log_Template.html">Demo</a>
+    <a href="mailto:mikesmillie59@gmail.com">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
