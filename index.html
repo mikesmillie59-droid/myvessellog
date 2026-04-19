@@ -134,6 +134,44 @@ nav {
 .hero-visual {
   display: flex; justify-content: center; align-items: center;
   position: relative;
+  flex-direction: column; gap: 1.5rem;
+}
+
+.boat-photo-wrap {
+  position: relative; width: 100%;
+  border-radius: 12px; overflow: hidden;
+  border: 2px solid rgba(61,191,184,0.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  aspect-ratio: 16/9;
+  background: #0D2135;
+}
+
+.boat-photo-wrap img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+.boat-photo-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(10,22,36,0.92));
+  padding: 1.5rem 1rem 0.75rem;
+  font-size: 0.8rem; color: rgba(255,255,255,0.75);
+  font-style: italic;
+}
+
+.boat-photo-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(61,191,184,0.15); border: 1px solid rgba(61,191,184,0.35);
+  color: #3DBFB8; font-size: 0.7rem; font-weight: 600;
+  padding: 0.2rem 0.6rem; border-radius: 20px; letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.visual-row {
+  display: flex; gap: 1.5rem; align-items: flex-start; width: 100%;
+}
+
+.visual-row .phone-frame {
+  flex-shrink: 0;
 }
 
 .phone-frame {
@@ -414,6 +452,7 @@ footer {
   .hero { padding: 6rem 1.25rem 3rem; }
   .hero-content { grid-template-columns: 1fr; gap: 3rem; }
   .hero-visual { order: -1; }
+  .phone-frame { width: 220px; }
   section { padding: 4rem 1.25rem; }
   .steps { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr 1fr; }
@@ -467,6 +506,12 @@ footer {
       </div>
     </div>
     <div class="hero-visual">
+      <div class="boat-photo-wrap">
+        <img id="boatHeroImg" src="App pic.png" alt="Grand Banks 42 trawler — My Vessel Log in action"
+             onerror="this.src='boat.jpg'; this.onerror=function(){this.closest('.boat-photo-wrap').style.display='none';};">
+        <div class="boat-photo-caption">My Grand Banks 42 — the boat that inspired My Vessel Log</div>
+        <div class="boat-photo-badge">Real boat. Real data.</div>
+      </div>
       <div class="phone-frame">
         <div class="phone-notch"></div>
         <div class="phone-screen">
@@ -597,6 +642,11 @@ footer {
         <h3>Works offline</h3>
         <p>Open it once on WiFi and it works fully offline at the marina, at anchor, or wherever you are. Log tasks anywhere, anytime.</p>
       </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <h3>Contractor log form</h3>
+        <p>Tier 2 customers get a dedicated log form for engineers and technicians. Your contractor scans a QR code, fills in the work completed, and we handle the rest — your app is updated within 48 hours.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -643,6 +693,8 @@ footer {
           <li>Email your export summary to us</li>
           <li>We update your app within 48 hrs</li>
           <li>New tasks &amp; intervals on request</li>
+          <li>Contractor log form included</li>
+          <li>Engineers &amp; technicians can log work directly from their phone</li>
           <li>Ongoing support by email</li>
         </ul>
         <a href="https://buy.stripe.com/7sYfZhfivezj0IWb2T5EY01" class="btn-tier2">Get started →</a>
