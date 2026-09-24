@@ -3,750 +3,291 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Vessel Log — Personalised Boat Maintenance Apps</title>
-<meta name="description" content="A personalised boat maintenance app built specifically for your vessel. Track engine hours, service intervals and maintenance history — all in one place on your phone.">
+<meta name="description" content="My Vessel Apps: practical maintenance and navigation tools built by a boat owner, for boat owners. My Vessel Log is available worldwide; My Helm is designed for New Zealand waters.">
+<meta name="theme-color" content="#081725">
+<title>My Vessel Apps — Maintenance and Navigation Tools for Boat Owners</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Black&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy:   #0B1C2E;
-  --navy2:  #112338;
-  --navy3:  #1A3450;
-  --teal:   #3DBFB8;
-  --brass:  #C8922A;
-  --brass2: #E8B84B;
-  --cream:  #F5F0E8;
-  --cream2: #EDE8DC;
-  --white:  #FFFFFF;
-  --muted:  #8BAABF;
-  --text:   #1A2A3A;
+:root{
+  --ocean:#081725;--deep:#0d2134;--hull:#122c43;--steel:#1b3f59;
+  --foam:#eef8fa;--muted:#9bb9c8;--wake:#53c4d8;--wake-dark:#207f95;
+  --brass:#e0a535;--brass-light:#f2c260;--green:#69c58a;--orange:#f26a21;
+  --line:rgba(238,248,250,.12);--shadow:0 22px 60px rgba(0,0,0,.26);
+  --serif:'Archivo Black',sans-serif;--sans:'Archivo',sans-serif;--mono:'JetBrains Mono',monospace;
 }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--foam);background:var(--ocean);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button,a{touch-action:manipulation}
+img{max-width:100%;display:block}
+.wrap{width:min(1160px,calc(100% - 40px));margin:0 auto}
+.skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;background:#fff;color:#000;padding:10px 14px;z-index:100}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Navigation */
+nav{position:sticky;top:0;z-index:50;background:rgba(8,23,37,.91);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);letter-spacing:.02em}
+.brand-mark{width:40px;height:40px;flex:none}
+.brand-name{font-size:18px;line-height:1}.brand-name small{display:block;font-family:var(--mono);font-size:9px;color:var(--wake);letter-spacing:.2em;margin-top:5px}
+.nav-links{display:flex;align-items:center;gap:25px;font-size:14px;font-weight:600;color:#cfe0e7}
+.nav-links a:hover{color:var(--wake)}
+.nav-cta{background:var(--brass);color:#101c24!important;padding:10px 16px;border-radius:9px}
 
-html { scroll-behavior: smooth; }
+/* Common */
+section{padding:92px 0}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wake);font-weight:500;margin-bottom:14px}
+.section-head{max-width:760px;margin-bottom:44px}
+.section-head.center{text-align:center;margin-left:auto;margin-right:auto}
+h1,h2,h3{line-height:1.12}
+h1,h2{font-family:var(--serif)}
+h2{font-size:clamp(34px,4.5vw,56px);letter-spacing:-.025em}
+.lead{font-size:18px;color:var(--muted);margin-top:18px;max-width:690px}
+.center .lead{margin-left:auto;margin-right:auto}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border-radius:10px;font-weight:700;border:1px solid transparent;transition:.18s transform,.18s background,.18s border}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--brass);color:#101c24}.btn-primary:hover{background:var(--brass-light)}
+.btn-secondary{border-color:rgba(83,196,216,.45);background:rgba(83,196,216,.08);color:var(--foam)}
+.btn-secondary:hover{background:rgba(83,196,216,.16)}
+.tag{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.tag-world{background:rgba(105,197,138,.13);color:#85dfaa;border:1px solid rgba(105,197,138,.28)}
+.tag-nz{background:rgba(83,196,216,.13);color:#78d7e7;border:1px solid rgba(83,196,216,.28)}
 
-body {
-  font-family: 'Source Sans 3', sans-serif;
-  background: var(--navy);
-  color: var(--white);
-  overflow-x: hidden;
+/* Hero */
+.hero{position:relative;overflow:hidden;padding:110px 0 94px;background:
+  radial-gradient(800px 430px at 72% 18%,rgba(35,127,149,.22),transparent 67%),
+  radial-gradient(650px 380px at 12% 68%,rgba(27,63,89,.5),transparent 68%),var(--ocean)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.14;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(to bottom,#000,transparent 78%)}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.02fr .98fr;gap:65px;align-items:center}
+.hero h1{font-size:clamp(46px,6vw,78px);letter-spacing:-.045em}
+.hero h1 span{display:block;color:var(--brass-light)}
+.hero-copy{font-size:19px;color:#b7ced8;max-width:620px;margin-top:24px}
+.hero-proof{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px;color:#bed2da;font-size:13px}
+.hero-proof span{display:flex;align-items:center;gap:7px}.hero-proof span::before{content:"✓";color:var(--green);font-weight:700}
+.product-stack{position:relative;min-height:500px}
+.preview{position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:var(--deep)}
+.preview-maint{width:56%;left:0;top:40px;z-index:2;transform:rotate(-2deg)}
+.preview-helm{width:77%;right:-4%;bottom:8px;z-index:1;transform:rotate(2deg)}
+.preview-top{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 13px;background:#10283c;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:9px;color:var(--muted)}
+.preview-top strong{color:var(--foam);letter-spacing:.06em}
+.preview-maint-body{padding:14px}
+.mini-boat{font-size:11px;color:var(--wake);margin-bottom:11px}.mini-hours{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mini-stat{background:#0a1d2d;border:1px solid var(--line);border-radius:8px;padding:9px}.mini-stat span{display:block;font-size:8px;text-transform:uppercase;color:var(--muted)}.mini-stat strong{font-family:var(--mono);font-size:18px;color:var(--brass-light)}
+.mini-task{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:8px;border-radius:8px;background:#0a1d2d;border-left:3px solid var(--green);font-size:9px}.mini-task.amber{border-left-color:var(--brass)}.mini-task.red{border-left-color:#e65a5a}.mini-task b{font-weight:600}.mini-task span{color:var(--muted)}
+.preview-helm img{width:100%;aspect-ratio:1.88/1;object-fit:cover}
+.floating-note{position:absolute;right:0;top:4px;z-index:3;background:var(--foam);color:#102232;border-radius:11px;padding:10px 13px;font-size:11px;font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.28)}
+
+/* Availability */
+.availability{padding:0;background:#0a1c2b;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.availability-grid{display:grid;grid-template-columns:1fr 1fr}
+.availability-item{padding:25px 34px;display:flex;align-items:center;gap:15px}.availability-item+*{border-left:1px solid var(--line)}
+.availability-icon{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(83,196,216,.1);font-size:18px}
+.availability-item strong{display:block;font-size:15px}.availability-item span{font-size:13px;color:var(--muted)}
+
+/* Products */
+.products{background:#0b1c2b}
+.product-card{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:54px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#10283c,#0b1e2e);box-shadow:0 18px 50px rgba(0,0,0,.15)}
+.product-card+*{margin-top:38px}.product-card.reverse .product-copy{order:2}.product-card.reverse .product-visual{order:1}
+.product-title{font-family:var(--serif);font-size:clamp(34px,4vw,50px);margin:17px 0 17px}
+.product-copy>p{color:var(--muted);font-size:17px}
+.feature-list{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin-top:26px;list-style:none}
+.feature-list li{position:relative;padding-left:23px;color:#d8e7eb;font-size:14px}.feature-list li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.visual-shell{border:1px solid rgba(255,255,255,.13);border-radius:17px;background:#071824;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.28)}
+.visual-bar{height:42px;display:flex;align-items:center;gap:6px;padding:0 14px;border-bottom:1px solid var(--line);background:#10283c}
+.visual-bar i{width:7px;height:7px;border-radius:50%;background:#486579}.visual-bar i:nth-child(2){background:var(--brass)}.visual-bar i:nth-child(3){background:var(--wake)}
+.maintenance-screen{padding:20px}
+.maintenance-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.maintenance-head strong{font-family:var(--serif);color:var(--brass-light)}.maintenance-head span{font-size:10px;color:var(--muted)}
+.maint-hours{display:grid;grid-template-columns:1fr 1fr;gap:12px}.maint-hours div{border:1px solid var(--line);border-radius:10px;padding:12px;background:#0d2233}.maint-hours small{color:var(--muted);font-size:9px;text-transform:uppercase}.maint-hours b{display:block;font-family:var(--mono);font-size:23px;margin-top:2px}
+.maint-section{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--wake);margin:17px 0 9px}
+.maint-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#0d2233;border-radius:9px;margin-top:7px;border-left:3px solid var(--green);font-size:11px}.maint-row.amber{border-left-color:var(--brass)}.maint-row.red{border-left-color:#e65a5a}.maint-row span{color:var(--muted);font-size:9px}.maint-row em{font-style:normal;font-family:var(--mono);font-size:9px;color:#dce9ed}
+.helm-shot{position:relative}.helm-shot img{width:100%;aspect-ratio:1.92/1;object-fit:cover}.shot-label{position:absolute;left:12px;bottom:12px;background:rgba(8,23,37,.9);border:1px solid rgba(255,255,255,.18);padding:7px 10px;border-radius:8px;font-size:10px;color:#dce9ed}
+.notice{margin-top:24px;padding:14px 16px;border-radius:10px;background:rgba(224,165,53,.08);border:1px solid rgba(224,165,53,.25);font-size:13px;color:#d7c494}
+
+/* How */
+.how{background:var(--ocean)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{padding:27px;border:1px solid var(--line);border-radius:16px;background:#0d2134}
+.step-num{font-family:var(--mono);font-size:11px;color:var(--brass-light);margin-bottom:25px}.step h3{font-size:20px;margin-bottom:10px}.step p{color:var(--muted);font-size:14px}
+
+/* Pricing */
+.pricing{background:#0b1c2b}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.price-card{position:relative;padding:30px;border:1px solid var(--line);border-radius:18px;background:#0d2134;display:flex;flex-direction:column}
+.price-card.featured{border-color:rgba(224,165,53,.7);box-shadow:0 0 0 1px rgba(224,165,53,.18),var(--shadow);transform:translateY(-9px)}
+.best{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--brass);color:#13212a;font-size:10px;text-transform:uppercase;letter-spacing:.13em;font-weight:800;padding:6px 13px;border-radius:999px;white-space:nowrap}
+.price-tag{margin-bottom:18px}.price-card h3{font-size:24px}.price-for{color:var(--wake);font-size:12px;font-weight:700;margin-top:7px}.price{font-family:var(--serif);font-size:52px;margin:21px 0 4px}.price sup{font-family:var(--sans);font-size:15px;vertical-align:top;position:relative;top:10px;margin-right:4px}.once{font-size:12px;color:var(--muted);margin-bottom:20px}
+.price-list{list-style:none;border-top:1px solid var(--line);padding-top:18px;margin-bottom:26px;flex:1}.price-list li{font-size:13px;color:#d6e5ea;padding:6px 0 6px 20px;position:relative}.price-list li::before{content:"✓";position:absolute;left:0;color:var(--green)}
+.price-card .btn{width:100%}.placeholder-note{text-align:center;color:#7f9aa8;font-size:10px;margin-top:9px}
+
+/* Testimonials */
+.testimonials{background:var(--ocean)}
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.quote{padding:25px;border:1px solid var(--line);border-radius:15px;background:#0d2134}.stars{color:var(--brass-light);letter-spacing:.12em;margin-bottom:14px}.quote p{font-size:15px;color:#d8e6ea}.quote footer{margin-top:20px;color:var(--muted);font-size:12px}.quote footer strong{color:var(--foam);display:block;font-size:13px}
+
+/* FAQ */
+.faq{background:#0b1c2b}
+.faq-list{max-width:840px;margin:0 auto;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line);padding:0 5px}.faq summary{cursor:pointer;list-style:none;font-size:17px;font-weight:700;padding:22px 0;display:flex;justify-content:space-between;gap:20px}.faq summary::after{content:"+";color:var(--wake);font-size:24px;font-weight:400}.faq details[open] summary::after{content:"–"}.faq details p{color:var(--muted);font-size:14px;padding:0 40px 22px 0}
+
+/* Final CTA and footer */
+.final-cta{text-align:center;background:radial-gradient(600px 240px at 50% 100%,rgba(83,196,216,.18),transparent 70%),var(--ocean)}
+.final-cta h2{max-width:800px;margin:auto}.final-cta .lead{margin-left:auto;margin-right:auto}
+.final-cta .btn-row{justify-content:center}
+.site-footer{border-top:1px solid var(--line);padding:35px 0;background:#06131f}
+.footer-row{display:flex;align-items:center;justify-content:space-between;gap:24px;color:var(--muted);font-size:12px}.footer-links{display:flex;gap:20px}.footer-links a:hover{color:var(--wake)}
+.toast{position:fixed;z-index:100;left:50%;bottom:22px;transform:translate(-50%,140%);background:#f7fbfc;color:#122636;padding:13px 18px;border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,.35);font-size:13px;font-weight:700;transition:transform .25s;max-width:calc(100% - 32px);text-align:center}.toast.show{transform:translate(-50%,0)}
+
+@media(max-width:900px){
+  .nav-links a:not(.nav-cta){display:none}.hero-grid{grid-template-columns:1fr}.hero{padding-top:80px}.product-stack{min-height:460px;max-width:700px;width:100%;margin:auto}.product-card{grid-template-columns:1fr;gap:38px;padding:38px}.product-card.reverse .product-copy,.product-card.reverse .product-visual{order:initial}.pricing-grid{grid-template-columns:1fr;max-width:560px;margin:auto}.price-card.featured{transform:none;margin:12px 0}.quotes{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.availability-grid{grid-template-columns:1fr}.availability-item+*{border-left:0;border-top:1px solid var(--line)}
 }
-
-/* ── NAVIGATION ─────────────────────────────────────────── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1rem 2.5rem;
-  background: rgba(11,28,46,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(61,191,184,0.15);
-}
-
-.nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-.nav-logo-text { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); letter-spacing: 0.03em; }
-.nav-logo-text span { color: var(--teal); }
-
-.nav-links { display: flex; align-items: center; gap: 2rem; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 400; transition: color 0.2s; }
-.nav-links a:hover { color: var(--white); }
-.nav-cta {
-  background: var(--brass); color: var(--navy) !important; font-weight: 600 !important;
-  padding: 0.5rem 1.25rem; border-radius: 4px; transition: background 0.2s !important;
-}
-.nav-cta:hover { background: var(--brass2) !important; }
-
-/* ── HERO ───────────────────────────────────────────────── */
-.hero {
-  min-height: 100vh;
-  display: flex; align-items: center;
-  padding: 7rem 2.5rem 4rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(61,191,184,0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 80% at 20% 80%, rgba(200,146,42,0.04) 0%, transparent 60%),
-    linear-gradient(160deg, #0B1C2E 0%, #0D2135 50%, #091929 100%);
-}
-
-.hero-grid {
-  position: absolute; inset: 0; opacity: 0.04;
-  background-image:
-    linear-gradient(rgba(61,191,184,0.5) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(61,191,184,0.5) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-.hero-content {
-  position: relative; z-index: 1;
-  max-width: 1100px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
-}
-
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  background: rgba(61,191,184,0.1); border: 1px solid rgba(61,191,184,0.25);
-  color: var(--teal); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 0.35rem 0.85rem; border-radius: 2px; margin-bottom: 1.5rem;
-}
-
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 4vw, 3.6rem);
-  font-weight: 900; line-height: 1.1;
-  margin-bottom: 1.5rem;
-}
-
-.hero-title em { color: var(--teal); font-style: normal; }
-
-.hero-sub {
-  font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.7;
-  margin-bottom: 2.5rem; font-weight: 300;
-}
-
-.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-.btn-primary {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  background: var(--brass); color: var(--navy);
-  font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 1rem;
-  padding: 0.85rem 2rem; border-radius: 4px; text-decoration: none;
-  transition: background 0.2s, transform 0.15s;
-  border: none; cursor: pointer;
-}
-.btn-primary:hover { background: var(--brass2); transform: translateY(-1px); }
-
-.btn-secondary {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  background: transparent; color: var(--white);
-  font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 1rem;
-  padding: 0.85rem 2rem; border-radius: 4px; text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.25);
-  transition: border-color 0.2s, transform 0.15s;
-}
-.btn-secondary:hover { border-color: rgba(255,255,255,0.6); transform: translateY(-1px); }
-
-/* Hero phone mockup */
-.hero-visual {
-  display: flex; justify-content: center; align-items: center;
-  position: relative;
-  flex-direction: column; gap: 1.5rem;
-}
-
-.boat-photo-wrap {
-  position: relative; width: 100%;
-  border-radius: 12px; overflow: hidden;
-  border: 2px solid rgba(61,191,184,0.25);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  aspect-ratio: 16/9;
-  background: #0D2135;
-}
-
-.boat-photo-wrap img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-}
-
-.boat-photo-caption {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: linear-gradient(transparent, rgba(10,22,36,0.92));
-  padding: 1.5rem 1rem 0.75rem;
-  font-size: 0.8rem; color: rgba(255,255,255,0.75);
-  font-style: italic;
-}
-
-.boat-photo-badge {
-  position: absolute; top: 12px; right: 12px;
-  background: rgba(61,191,184,0.15); border: 1px solid rgba(61,191,184,0.35);
-  color: #3DBFB8; font-size: 0.7rem; font-weight: 600;
-  padding: 0.2rem 0.6rem; border-radius: 20px; letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.visual-row {
-  display: flex; gap: 1.5rem; align-items: flex-start; width: 100%;
-}
-
-.visual-row .phone-frame {
-  flex-shrink: 0;
-}
-
-.phone-frame {
-  width: 280px;
-  background: #0D1F35;
-  border: 2px solid rgba(61,191,184,0.3);
-  border-radius: 36px;
-  padding: 1rem;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(61,191,184,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
-  position: relative;
-  animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-12px); }
-}
-
-.phone-notch {
-  width: 80px; height: 6px; background: #0a1520;
-  border-radius: 3px; margin: 0 auto 1rem;
-}
-
-.phone-screen { background: #0B1C2E; border-radius: 24px; overflow: hidden; }
-
-.ps-header {
-  background: #0D2135; padding: 0.75rem 1rem;
-  display: flex; align-items: center; gap: 0.5rem;
-  border-bottom: 1px solid rgba(61,191,184,0.15);
-}
-
-.ps-anchor { font-size: 1rem; }
-
-.ps-title-block {}
-.ps-title { font-family: 'Playfair Display', serif; font-size: 0.75rem; color: var(--brass2); font-weight: 700; }
-.ps-vessel { font-size: 0.6rem; color: var(--muted); }
-
-.ps-hrs {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; padding: 0.6rem;
-}
-.ps-hr-box {
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(61,191,184,0.15);
-  border-radius: 6px; padding: 0.4rem 0.5rem;
-}
-.ps-hr-label { font-size: 0.45rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
-.ps-hr-val { font-size: 1rem; font-weight: 700; color: var(--teal); }
-
-.ps-tasks { padding: 0.4rem 0.6rem; }
-.ps-task-label { font-size: 0.5rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
-
-.ps-task {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0.4rem 0.5rem; border-radius: 5px; margin-bottom: 0.3rem;
-  border-left: 2px solid transparent;
-}
-.ps-task.green  { background: rgba(46,125,82,0.15);  border-left-color: #2E7D52; }
-.ps-task.amber  { background: rgba(200,146,42,0.15); border-left-color: var(--brass); }
-.ps-task.red    { background: rgba(180,50,50,0.15);  border-left-color: #B43232; }
-
-.ps-task-name { font-size: 0.55rem; color: rgba(255,255,255,0.85); }
-.ps-task-freq { font-size: 0.48rem; color: var(--muted); }
-.ps-task-badge { font-size: 0.45rem; font-weight: 600; padding: 0.1rem 0.35rem; border-radius: 3px; }
-.green  .ps-task-badge { background: rgba(46,125,82,0.3); color: #5DBF8A; }
-.amber  .ps-task-badge { background: rgba(200,146,42,0.3); color: var(--brass2); }
-.red    .ps-task-badge { background: rgba(180,50,50,0.3); color: #E87070; }
-
-.ps-nav {
-  display: grid; grid-template-columns: repeat(5,1fr);
-  border-top: 1px solid rgba(61,191,184,0.1);
-  padding: 0.5rem 0 0.3rem;
-}
-.ps-nav-item { text-align: center; font-size: 0.42rem; color: var(--muted); }
-.ps-nav-item.active { color: var(--brass2); }
-.ps-nav-icon { font-size: 0.9rem; display: block; }
-
-/* ── LOGOS / TRUST BAR ─────────────────────────────────── */
-.trust-bar {
-  background: rgba(255,255,255,0.02);
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  padding: 1.5rem 2.5rem;
-  text-align: center;
-}
-.trust-bar p { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
-.trust-engines {
-  display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
-}
-.trust-engines span { font-size: 0.85rem; color: rgba(255,255,255,0.5); font-weight: 600; }
-
-/* ── SECTIONS ───────────────────────────────────────────── */
-section { padding: 6rem 2.5rem; }
-
-.section-inner { max-width: 1100px; margin: 0 auto; }
-
-.section-eyebrow {
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--teal); margin-bottom: 1rem;
-}
-
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 700; line-height: 1.2;
-  margin-bottom: 1.25rem;
-}
-
-.section-sub {
-  font-size: 1.05rem; color: rgba(255,255,255,0.65); line-height: 1.7;
-  max-width: 580px; font-weight: 300;
-}
-
-/* ── HOW IT WORKS ───────────────────────────────────────── */
-.how { background: var(--navy2); }
-
-.steps {
-  display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 3.5rem;
-}
-
-.step {
-  position: relative; padding: 2rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 8px;
-  transition: border-color 0.3s;
-}
-.step:hover { border-color: rgba(61,191,184,0.3); }
-
-.step-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.5rem; font-weight: 900; line-height: 1;
-  color: rgba(61,191,184,0.15); margin-bottom: 1rem;
-}
-
-.step h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
-.step p { font-size: 0.95rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
-
-.step-connector {
-  position: absolute; top: 2.5rem; right: -1rem;
-  width: 2rem; height: 1px; background: rgba(61,191,184,0.25);
-  display: none;
-}
-
-/* ── FEATURES ───────────────────────────────────────────── */
-.features-grid {
-  display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem;
-}
-
-.feature-card {
-  padding: 1.75rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 8px;
-  transition: transform 0.2s, border-color 0.2s;
-}
-.feature-card:hover { transform: translateY(-3px); border-color: rgba(200,146,42,0.3); }
-
-.feature-icon {
-  width: 44px; height: 44px;
-  background: rgba(200,146,42,0.12); border: 1px solid rgba(200,146,42,0.25);
-  border-radius: 8px; display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; margin-bottom: 1.1rem;
-}
-
-.feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
-.feature-card p { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
-
-/* ── PRICING ────────────────────────────────────────────── */
-.pricing { background: var(--navy2); }
-
-.pricing-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
-  max-width: 780px; margin: 3.5rem auto 0;
-}
-
-.pricing-card {
-  padding: 2.5rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  position: relative;
-}
-
-.pricing-card.featured {
-  background: rgba(61,191,184,0.05);
-  border-color: rgba(61,191,184,0.35);
-}
-
-.pricing-badge {
-  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  background: var(--teal); color: var(--navy);
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 0.25rem 0.85rem; border-radius: 20px;
-}
-
-.pricing-tier { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
-.pricing-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
-
-.pricing-amount { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 0.35rem; }
-.pricing-currency { font-size: 1.2rem; color: var(--muted); }
-.pricing-price { font-size: 3rem; font-weight: 700; line-height: 1; }
-.pricing-period { font-size: 0.9rem; color: var(--muted); }
-.pricing-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
-
-.pricing-features { list-style: none; margin-bottom: 2rem; }
-.pricing-features li {
-  display: flex; align-items: flex-start; gap: 0.6rem;
-  font-size: 0.9rem; color: rgba(255,255,255,0.75); padding: 0.4rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.pricing-features li:last-child { border-bottom: none; }
-.pricing-features li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; margin-top: 0.05rem; }
-
-.btn-tier1 {
-  display: block; text-align: center; text-decoration: none;
-  background: rgba(255,255,255,0.08); color: var(--white);
-  font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 0.95rem;
-  padding: 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);
-  transition: background 0.2s;
-}
-.btn-tier1:hover { background: rgba(255,255,255,0.14); }
-
-.btn-tier2 {
-  display: block; text-align: center; text-decoration: none;
-  background: var(--brass); color: var(--navy);
-  font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.95rem;
-  padding: 0.85rem; border-radius: 6px;
-  transition: background 0.2s;
-}
-.btn-tier2:hover { background: var(--brass2); }
-
-/* ── TESTIMONIALS ───────────────────────────────────────── */
-.testimonials-grid {
-  display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem;
-}
-
-.testimonial-card {
-  padding: 1.75rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 8px;
-}
-
-.testimonial-stars { color: var(--brass2); font-size: 0.85rem; margin-bottom: 1rem; }
-.testimonial-text { font-size: 0.95rem; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
-.testimonial-author { font-size: 0.85rem; font-weight: 600; }
-.testimonial-vessel { font-size: 0.8rem; color: var(--muted); }
-
-/* ── CTA ────────────────────────────────────────────────── */
-.cta-section {
-  text-align: center;
-  background: linear-gradient(135deg, rgba(61,191,184,0.08) 0%, rgba(200,146,42,0.05) 100%);
-  border-top: 1px solid rgba(61,191,184,0.15);
-  border-bottom: 1px solid rgba(61,191,184,0.15);
-}
-
-.cta-section .section-title { margin-bottom: 1rem; }
-.cta-section .section-sub { margin: 0 auto 2.5rem; }
-.cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-
-/* ── FOOTER ─────────────────────────────────────────────── */
-footer {
-  padding: 3rem 2.5rem;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-}
-
-.footer-logo { display: flex; align-items: center; gap: 0.6rem; }
-.footer-logo-text { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: rgba(255,255,255,0.6); }
-.footer-logo-text span { color: var(--teal); }
-.footer-copy { font-size: 0.8rem; color: var(--muted); }
-.footer-links { display: flex; gap: 1.5rem; }
-.footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; }
-.footer-links a:hover { color: var(--white); }
-
-/* ── RESPONSIVE ─────────────────────────────────────────── */
-@media (max-width: 768px) {
-  nav { padding: 1rem 1.25rem; }
-  .nav-links { display: none; }
-  .hero { padding: 6rem 1.25rem 3rem; }
-  .hero-content { grid-template-columns: 1fr; gap: 3rem; }
-  .hero-visual { order: -1; }
-  .phone-frame { width: 220px; }
-  section { padding: 4rem 1.25rem; }
-  .steps { grid-template-columns: 1fr; }
-  .features-grid { grid-template-columns: 1fr 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .testimonials-grid { grid-template-columns: 1fr; }
-  footer { flex-direction: column; text-align: center; }
-}
-
-@media (max-width: 480px) {
-  .features-grid { grid-template-columns: 1fr; }
+@media(max-width:600px){
+  .wrap{width:min(100% - 28px,1160px)}section{padding:68px 0}.nav-inner{height:68px}.brand-name{font-size:16px}.nav-cta{padding:9px 12px;font-size:12px}.hero{padding:70px 0 64px}.hero h1{font-size:44px}.hero-copy{font-size:17px}.product-stack{min-height:340px}.preview-maint{width:59%;top:24px}.preview-helm{width:80%;bottom:0}.floating-note{font-size:9px}.product-card{padding:25px;border-radius:18px}.feature-list{grid-template-columns:1fr}.product-title{font-size:35px}.availability-item{padding:21px 10px}.footer-row{flex-direction:column;text-align:center}.footer-links{flex-wrap:wrap;justify-content:center}.price{font-size:46px}
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-      <circle cx="16" cy="16" r="15" fill="#0D2135" stroke="#3DBFB8" stroke-width="1.2"/>
-      <line x1="16" y1="6" x2="16" y2="26" stroke="#3DBFB8" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="10" y1="12" x2="22" y2="12" stroke="#3DBFB8" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M10 22 Q16 26 22 22" stroke="#C8922A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <circle cx="16" cy="8" r="2" fill="#C8922A"/>
-    </svg>
-    <span class="nav-logo-text">My Vessel <span>Log</span></span>
-  </a>
-  <div class="nav-links">
-    <a href="#how">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#pricing" class="nav-cta">Get the app</a>
+<nav aria-label="Main navigation">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="My Vessel Apps home">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="#10283c" stroke="#53c4d8"/><circle cx="20" cy="9" r="2.4" fill="#e0a535"/><path d="M20 11.5V31M13.5 17h13M11.5 24.5c2.5 5 14.5 5 17 0M11.5 24.5 9 27M11.5 24.5l2.2 2.8M28.5 24.5 31 27M28.5 24.5l-2.2 2.8" stroke="#53c4d8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="brand-name">My Vessel<small>BOAT APPS</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#products">Products</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">Questions</a><a class="nav-cta" href="#pricing">Choose an app</a>
+    </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-content">
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
     <div>
-      <div class="hero-eyebrow">
-        <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#3DBFB8"/></svg>
-        Built for trawler & motor cruiser owners
-      </div>
-      <h1 class="hero-title">Your boat.<br>Your engines.<br><em>Your app.</em></h1>
-      <p class="hero-sub">A maintenance and trip logbook for your vessel — track engine hours, servicing and voyages on your phone, tablet or computer. Buy it once, set it up yourself in a minute, and it's yours. Works offline.</p>
-      <div class="hero-actions">
-        <a href="#pricing" class="btn-primary">Get the app →</a>
-        <a href="https://mikesmillie59-droid.github.io/myvessel-log/demo.html" class="btn-secondary">Try the live demo →</a>
-      </div>
+      <div class="eyebrow">Practical apps, built by a boat owner</div>
+      <h1>Maintain it.<br>Navigate it.<span>Enjoy it.</span></h1>
+      <p class="hero-copy">Two straightforward tools for running your boat: a complete maintenance and trip log, plus a New Zealand navigation companion with LINZ reference charts and Anchor Watch.</p>
+      <div class="btn-row"><a class="btn btn-primary" href="#products">Explore the apps</a><a class="btn btn-secondary" href="#pricing">See one-off pricing</a></div>
+      <div class="hero-proof"><span>No subscriptions</span><span>Use on any device</span><span>Your data stays with you</span></div>
     </div>
-    <div class="hero-visual">
-      <div class="boat-photo-wrap">
-        <img id="boatHeroImg" src="App pic.png" alt="Grand Banks 42 trawler — My Vessel Log in action"
-             onerror="this.src='boat.jpg'; this.onerror=function(){this.closest('.boat-photo-wrap').style.display='none';};">
-        <div class="boat-photo-caption">My Grand Banks 42 — the boat that inspired My Vessel Log</div>
-        <div class="boat-photo-badge">Real boat. Real data.</div>
-      </div>
-      <div class="phone-frame">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <div class="ps-header">
-            <span class="ps-anchor">⚓</span>
-            <div class="ps-title-block">
-              <div class="ps-title">MY VESSEL LOG</div>
-              <div class="ps-vessel">Grand Banks 42 · Twin Ford Lehman</div>
-            </div>
-          </div>
-          <div class="ps-hrs">
-            <div class="ps-hr-box">
-              <div class="ps-hr-label">Port Hrs</div>
-              <div class="ps-hr-val">3,641</div>
-            </div>
-            <div class="ps-hr-box">
-              <div class="ps-hr-label">Stbd Hrs</div>
-              <div class="ps-hr-val">3,638</div>
-            </div>
-          </div>
-          <div class="ps-tasks">
-            <div class="ps-task-label">Engine Tasks</div>
-            <div class="ps-task green">
-              <div><div class="ps-task-name">Oil &amp; Filters</div><div class="ps-task-freq">200 hrs</div></div>
-              <div class="ps-task-badge">+84hrs</div>
-            </div>
-            <div class="ps-task amber">
-              <div><div class="ps-task-name">Injector Oil</div><div class="ps-task-freq">50 hrs</div></div>
-              <div class="ps-task-badge">+12hrs</div>
-            </div>
-            <div class="ps-task red">
-              <div><div class="ps-task-name">Zinc Pencils</div><div class="ps-task-freq">3 monthly</div></div>
-              <div class="ps-task-badge">Overdue</div>
-            </div>
-            <div class="ps-task green">
-              <div><div class="ps-task-name">Raw Water Impeller</div><div class="ps-task-freq">annual</div></div>
-              <div class="ps-task-badge">177d</div>
-            </div>
-          </div>
-          <div class="ps-nav">
-            <div class="ps-nav-item active"><span class="ps-nav-icon">📊</span>Dash</div>
-            <div class="ps-nav-item"><span class="ps-nav-icon">⚙️</span>Engines</div>
-            <div class="ps-nav-item"><span class="ps-nav-icon">📋</span>Log</div>
-            <div class="ps-nav-item"><span class="ps-nav-icon">🧭</span>Trips</div>
-            <div class="ps-nav-item"><span class="ps-nav-icon">📦</span>Parts</div>
-          </div>
+    <div class="product-stack" aria-label="My Vessel Log and My Helm previews">
+      <div class="floating-note">Two apps · one better-run boat</div>
+      <div class="preview preview-maint">
+        <div class="preview-top"><strong>MY VESSEL LOG</strong><span>Grand Banks 42</span></div>
+        <div class="preview-maint-body">
+          <div class="mini-boat">Twin Ford Lehman · Maintenance dashboard</div>
+          <div class="mini-hours"><div class="mini-stat"><span>Port hrs</span><strong>3,641</strong></div><div class="mini-stat"><span>Stbd hrs</span><strong>3,638</strong></div></div>
+          <div class="mini-task"><b>Oil &amp; Filters</b><span>+84 hrs</span></div><div class="mini-task amber"><b>Injector Oil</b><span>+12 hrs</span></div><div class="mini-task red"><b>Zinc Pencils</b><span>Overdue</span></div>
         </div>
       </div>
+      <div class="preview preview-helm"><div class="preview-top"><strong>MY HELM</strong><span>New Zealand Edition</span></div><img src="my-helm-nz.png" alt="My Helm displaying a LINZ chart, navigation controls and saved places"></div>
     </div>
   </div>
 </section>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <p>Engine families supported</p>
-  <div class="trust-engines">
-    <span>Ford Lehman</span>
-    <span>Cummins 6BTA</span>
-    <span>Caterpillar 3208</span>
-    <span>Detroit Diesel</span>
-    <span>Perkins</span>
-    <span>Yanmar</span>
-    <span>Volvo Penta</span>
-    <span>John Deere Marine</span>
+<section class="availability" aria-label="Product availability">
+  <div class="wrap availability-grid">
+    <div class="availability-item"><div class="availability-icon">🌍</div><div><strong>My Vessel Log</strong><span>Maintenance and trip logging · available worldwide</span></div></div>
+    <div class="availability-item"><div class="availability-icon">🇳🇿</div><div><strong>My Helm — New Zealand Edition</strong><span>LINZ reference charts and navigation tools · for New Zealand waters</span></div></div>
   </div>
-</div>
+</section>
 
-<!-- HOW IT WORKS -->
+<section class="products" id="products">
+  <div class="wrap">
+    <div class="section-head center"><div class="eyebrow">Choose your onboard tools</div><h2>Two jobs. Two focused apps.</h2><p class="lead">Each app is useful on its own. Together they help you look after the boat at the dock and stay organised while underway.</p></div>
+
+    <article class="product-card">
+      <div class="product-copy">
+        <span class="tag tag-world">Available worldwide</span>
+        <h3 class="product-title">My Vessel Log</h3>
+        <p>Keep engine hours, maintenance schedules, parts, service records and voyages together in one simple logbook—set up for your own boat in about a minute.</p>
+        <ul class="feature-list"><li>Port and starboard engine tracking</li><li>Hour- and date-based schedules</li><li>Maintenance history with notes and costs</li><li>Trip log updates engine hours</li><li>Parts inventory and suppliers</li><li>Backup and restore between devices</li><li>Works fully offline once loaded</li><li>Customer-uploaded vessel photograph</li></ul>
+        <div class="btn-row"><a class="btn btn-primary" href="#pricing">Buy for US$29</a><a class="btn btn-secondary" href="https://mikesmillie59-droid.github.io/myvessel-log/demo.html" target="_blank" rel="noopener">Try the maintenance demo</a></div>
+      </div>
+      <div class="product-visual visual-shell" aria-label="My Vessel Log dashboard preview">
+        <div class="visual-bar"><i></i><i></i><i></i></div>
+        <div class="maintenance-screen"><div class="maintenance-head"><strong>MY VESSEL LOG</strong><span>24 SEPTEMBER 2026</span></div><div class="maint-hours"><div><small>Port hours</small><b>3,641</b></div><div><small>Starboard hours</small><b>3,638</b></div></div><div class="maint-section">Engine tasks</div><div class="maint-row"><b>Oil &amp; Filters</b><span>200 hrs</span><em>+84 hrs</em></div><div class="maint-row amber"><b>Injector Oil</b><span>50 hrs</span><em>+12 hrs</em></div><div class="maint-row red"><b>Zinc Pencils</b><span>3 monthly</span><em>OVERDUE</em></div><div class="maint-row"><b>Raw Water Impeller</b><span>Annual</span><em>177 days</em></div></div>
+      </div>
+    </article>
+
+    <article class="product-card reverse">
+      <div class="product-copy">
+        <span class="tag tag-nz">New Zealand Edition</span>
+        <h3 class="product-title">My Helm</h3>
+        <p>A practical navigation companion for New Zealand coastal waters. See your position on LINZ reference charts, set an Anchor Watch, and organise the places that matter to you.</p>
+        <ul class="feature-list"><li>Live GPS position, speed and course</li><li>LINZ New Zealand reference charts</li><li>Adjustable Anchor Watch</li><li>Waypoints, hazards and fishing spots</li><li>Spoken proximity alerts</li><li>Saved Places filters for map and list</li><li>Backup and restore saved places</li><li>Add to your tablet or phone home screen</li></ul>
+        <div class="notice"><strong>New Zealand waters:</strong> LINZ chart coverage and the chart catalogue are specific to New Zealand. Chart images require internet; the app, GPS tools, Anchor Watch and saved data remain available once Helm has loaded offline.</div>
+        <div class="btn-row"><a class="btn btn-primary" href="#pricing">Buy NZ Edition for US$29</a></div>
+      </div>
+      <div class="product-visual visual-shell helm-shot"><div class="visual-bar"><i></i><i></i><i></i></div><img src="my-helm-nz.png" alt="My Helm New Zealand Edition showing a LINZ chart of the Tamaki Strait and the Saved Places panel"><div class="shot-label">LINZ reference chart · Saved Places · New Zealand Edition</div></div>
+    </article>
+  </div>
+</section>
+
 <section class="how" id="how">
-  <div class="section-inner">
-    <div class="section-eyebrow">How it works</div>
-    <h2 class="section-title">Up and running in minutes</h2>
-    <p class="section-sub">No downloads, no app store, no tech skills needed. Buy it, set up your boat, and it's on your phone.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Buy the app</h3>
-        <p>A one-off US$49. You're taken straight to your app — no waiting, no app store, no forms to fill in first.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Set up your boat</h3>
-        <p>The first time you open it, a one-minute setup asks your boat name, engines and current hours — then loads a sensible maintenance schedule you can tailor. Change anything, anytime.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Use it on any device</h3>
-        <p>On a phone or tablet, tap "Add to Home Screen" so it sits there like a normal app. Prefer a keyboard? Open it on your laptop or desktop instead — whatever you find easiest. Works offline once loaded.</p>
-      </div>
-    </div>
+  <div class="wrap"><div class="section-head center"><div class="eyebrow">Simple from the start</div><h2>Up and running in minutes.</h2><p class="lead">No app store and no subscription. Buy once, open your app, then add it to your home screen.</p></div>
+    <div class="steps"><div class="step"><div class="step-num">01 · CHOOSE</div><h3>Choose one or both</h3><p>Pick the maintenance log, My Helm New Zealand Edition, or the complete bundle for the best value.</p></div><div class="step"><div class="step-num">02 · OPEN</div><h3>Receive your app link</h3><p>After payment, open the app immediately from the welcome page. The same link is also sent by email.</p></div><div class="step"><div class="step-num">03 · KEEP</div><h3>Add it to your device</h3><p>Add the app to your phone or tablet home screen. Your records and saved places stay on your own device.</p></div></div>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features">
-  <div class="section-inner">
-    <div class="section-eyebrow">Features</div>
-    <h2 class="section-title">Everything in one place</h2>
-    <p class="section-sub">Built by a boat owner, for boat owners. Everything you need to stay on top of your vessel's maintenance — nothing you don't.</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">⚙️</div>
-        <h3>Engine tracking</h3>
-        <p>Port and starboard engines tracked side by side, with service intervals you set to match your engines.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Dashboard status</h3>
-        <p>Red, amber and green status at a glance. See everything overdue, coming up, and all good — the moment you open the app.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📋</div>
-        <h3>Maintenance log</h3>
-        <p>Full history of every service with dates, hours, photos, notes and cost. Your boat's complete maintenance record in your pocket.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📦</div>
-        <h3>Parts inventory</h3>
-        <p>Track spare parts on board with part numbers and supplier details. Stock adjusts automatically when you log a task.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📅</div>
-        <h3>Schedules you control</h3>
-        <p>Set up your own jobs by engine hours <em>or</em> by the calendar — antifouling, anodes, safety gear, generator and more. All your service schedules in one place.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📶</div>
-        <h3>Works offline</h3>
-        <p>Use it on your phone, tablet or computer — whichever suits you. Works fully offline once loaded, and you can back up your logbook and move it between devices.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🧭</div>
-        <h3>Trip log</h3>
-        <p>Log every voyage — where you went, distance and hours underway. Your trip hours roll into your engine hours, so your maintenance countdowns update themselves.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
 <section class="pricing" id="pricing">
-  <div class="section-inner">
-    <div class="section-eyebrow">Pricing</div>
-    <h2 class="section-title">One simple price</h2>
-    <p class="section-sub">Buy it once, set it up yourself, and it's yours. No subscriptions, no ongoing fees.</p>
-    <div class="pricing-grid" style="display:flex;justify-content:center;">
-
-      <div class="pricing-card featured" style="max-width:440px;">
-        <div class="pricing-badge">One-off</div>
-        <div class="pricing-tier">My Vessel Log</div>
-        <div class="pricing-name">The App</div>
-        <div class="pricing-amount">
-          <span class="pricing-currency">US$</span>
-          <span class="pricing-price">49</span>
-        </div>
-        <div class="pricing-sub">One-off payment. Yours to keep. No ongoing fees.</div>
-        <ul class="pricing-features">
-          <li>One-minute setup — your boat, your way</li>
-          <li>Engine hours tracked port &amp; starboard</li>
-          <li>Schedules by hours <em>or</em> date — you set them</li>
-          <li>Trip log that updates your engine hours</li>
-          <li>Parts inventory you manage</li>
-          <li>Full maintenance history on your phone</li>
-          <li>Works offline &middot; adds to your home screen</li>
-          <li>Use it on phone, tablet or computer</li>
-          <li>Back up &amp; restore your logbook anytime</li>
-        </ul>
-        <a href="https://buy.stripe.com/fZu14nb2fdvf77k8UL5EY02" class="btn-tier2">Get the app →</a>
-      </div>
-
+  <div class="wrap"><div class="section-head center"><div class="eyebrow">One-off pricing</div><h2>Yours to keep.</h2><p class="lead">No subscription and no ongoing fees. All prices are in US dollars.</p></div>
+    <div class="pricing-grid">
+      <article class="price-card"><div class="price-tag"><span class="tag tag-world">Available worldwide</span></div><h3>My Vessel Log</h3><div class="price-for">Maintenance &amp; trip log</div><div class="price"><sup>US$</sup>29</div><div class="once">One-off payment</div><ul class="price-list"><li>Maintenance dashboard</li><li>Engine hours and service schedules</li><li>Trip log and parts inventory</li><li>Works fully offline once loaded</li><li>Backup and restore</li></ul>
+        <!-- STRIPE PLACEHOLDER — MAINTENANCE: replace href="#" with the My Vessel Log Stripe payment link and remove data-stripe-placeholder. -->
+        <a class="btn btn-secondary" href="#" data-stripe-placeholder="My Vessel Log">Buy My Vessel Log</a><div class="placeholder-note">Stripe link to be added</div>
+      </article>
+      <article class="price-card"><div class="price-tag"><span class="tag tag-nz">New Zealand Edition</span></div><h3>My Helm</h3><div class="price-for">Navigation companion</div><div class="price"><sup>US$</sup>29</div><div class="once">One-off payment</div><ul class="price-list"><li>GPS navigation information</li><li>LINZ NZ reference charts</li><li>Anchor Watch</li><li>Saved places and proximity alerts</li><li>For New Zealand waters</li></ul>
+        <!-- STRIPE PLACEHOLDER — HELM: replace href="#" with the My Helm Stripe payment link and remove data-stripe-placeholder. -->
+        <a class="btn btn-secondary" href="#" data-stripe-placeholder="My Helm — New Zealand Edition">Buy My Helm</a><div class="placeholder-note">Stripe link to be added</div>
+      </article>
+      <article class="price-card featured"><div class="best">Best value · save US$9</div><div class="price-tag"><span class="tag tag-nz">New Zealand bundle</span></div><h3>My Vessel Complete</h3><div class="price-for">Both apps</div><div class="price"><sup>US$</sup>49</div><div class="once">One-off payment</div><ul class="price-list"><li>Everything in My Vessel Log</li><li>Everything in My Helm NZ Edition</li><li>Separate links for both apps</li><li>Use across phone, tablet or computer</li><li>Best for New Zealand boat owners</li></ul>
+        <!-- STRIPE PLACEHOLDER — BUNDLE: replace href="#" with the My Vessel Complete Stripe payment link and remove data-stripe-placeholder. -->
+        <a class="btn btn-primary" href="#" data-stripe-placeholder="My Vessel Complete">Buy both apps</a><div class="placeholder-note">Stripe link to be added</div>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="section-inner">
-    <div class="section-eyebrow">From the fleet</div>
-    <h2 class="section-title">What owners are saying</h2>
-    <p class="section-sub">Real feedback from trawler and motor cruiser owners using My Vessel Log on their boats right now.</p>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Exactly what I've been looking for. Setting up my Ford Lehman service intervals took a couple of minutes, and the dashboard tells me at a glance what needs attention."</p>
-        <div class="testimonial-author">Classic trawler owner</div>
-        <div class="testimonial-vessel">Twin Ford Lehman 120 · New Zealand</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Works perfectly offline at anchor. I can log maintenance and trips right there on the water — it's all just on my phone. Really well thought out."</p>
-        <div class="testimonial-author">Motor cruiser owner</div>
-        <div class="testimonial-vessel">Twin Cummins 6BTA · Australia</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Having everything set up for my boat makes all the difference. The service schedule is spot on and the parts inventory saves me so much time."</p>
-        <div class="testimonial-author">Classic trawler owner</div>
-        <div class="testimonial-vessel">Twin Cat 3208 TA · Ireland</div>
-      </div>
+<section class="testimonials" id="reviews">
+  <div class="wrap"><div class="section-head"><div class="eyebrow">My Vessel Log · from the fleet</div><h2>What maintenance-app owners say.</h2></div>
+    <div class="quotes"><blockquote class="quote"><div class="stars">★★★★★</div><p>“Exactly what I've been looking for. Setting up my Ford Lehman service intervals took a couple of minutes, and the dashboard tells me at a glance what needs attention.”</p><footer><strong>Classic trawler owner</strong>Twin Ford Lehman 120 · New Zealand</footer></blockquote><blockquote class="quote"><div class="stars">★★★★★</div><p>“Works perfectly offline at anchor. I can log maintenance and trips right there on the water — it's all just on my phone. Really well thought out.”</p><footer><strong>Motor cruiser owner</strong>Twin Cummins 6BTA · Australia</footer></blockquote><blockquote class="quote"><div class="stars">★★★★★</div><p>“Having everything set up for my boat makes all the difference. The service schedule is spot on and the parts inventory saves me so much time.”</p><footer><strong>Classic trawler owner</strong>Twin Cat 3208 TA · Ireland</footer></blockquote></div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap"><div class="section-head center"><div class="eyebrow">Good to know</div><h2>Questions before you choose.</h2></div>
+    <div class="faq-list">
+      <details><summary>Can I use My Helm outside New Zealand?</summary><p>My Helm's GPS, Anchor Watch and Saved Places tools may operate in other locations, but its detailed LINZ chart coverage and chart catalogue are for New Zealand waters. My Helm is currently sold and supported as a New Zealand edition. Other regional editions may be developed in the future.</p></details>
+      <details><summary>Does everything work offline?</summary><p>My Vessel Log works fully offline once loaded. My Helm itself, its saved information, GPS tools and Anchor Watch can remain available once loaded offline, but LINZ chart images need an internet connection. Previously viewed images may appear from the browser cache, but this is not guaranteed.</p></details>
+      <details><summary>Where is my information stored?</summary><p>Your maintenance records and saved places are stored in the browser on your own device. There are no customer accounts and no cloud syncing. Both apps include backup and restore tools so you can keep a safe copy or move your data.</p></details>
+      <details><summary>Is My Helm a replacement for a chartplotter?</summary><p>No. My Helm is a supplementary reference tool. It is not a substitute for current official charts, approved navigation equipment, proper watchkeeping or a dedicated anchor alarm. Always navigate using appropriate equipment and current information.</p></details>
+      <details><summary>Can I use the apps on more than one device?</summary><p>Yes. Open your app link on a phone, tablet or computer. Because data stays on each device, use Backup and Restore when you want to transfer your records or saved places between devices.</p></details>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-section" id="order">
-  <div class="section-inner">
-    <div class="section-eyebrow">Get started</div>
-    <h2 class="section-title">Ready to take control of your boat's maintenance?</h2>
-    <p class="section-sub">A one-off US$49. Buy it now and you'll be set up on your phone in minutes.</p>
-    <div class="cta-actions">
-      <a href="https://buy.stripe.com/fZu14nb2fdvf77k8UL5EY02" class="btn-primary">Get the app — US$49 →</a>
-      <a href="https://mikesmillie59-droid.github.io/myvessel-log/demo.html" class="btn-secondary">Open the live demo</a>
-    </div>
-  </div>
-</section>
+<section class="final-cta"><div class="wrap"><div class="eyebrow">Built from real boating experience</div><h2>Less paperwork at the dock. Better organisation underway.</h2><p class="lead">Choose the app that fits your boat—or get both and save US$9.</p><div class="btn-row"><a class="btn btn-primary" href="#pricing">Compare the options</a><a class="btn btn-secondary" href="mailto:mike@myvessellog.com">Ask Mike a question</a></div></div></section>
+</main>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">
-    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-      <circle cx="16" cy="16" r="15" fill="#0D2135" stroke="#3DBFB8" stroke-width="1.2"/>
-      <line x1="16" y1="6" x2="16" y2="26" stroke="#3DBFB8" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="10" y1="12" x2="22" y2="12" stroke="#3DBFB8" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M10 22 Q16 26 22 22" stroke="#C8922A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <circle cx="16" cy="8" r="2" fill="#C8922A"/>
-    </svg>
-    <span class="footer-logo-text">My Vessel <span>Log</span></span>
-  </div>
-  <p class="footer-copy">© 2026 My Vessel Log · Built by a boat owner, for boat owners</p>
-  <div class="footer-links">
-    <a href="https://buy.stripe.com/fZu14nb2fdvf77k8UL5EY02">Get the app</a>
-    <a href="https://mikesmillie59-droid.github.io/myvessel-log/demo.html">Demo</a>
-    <a href="mailto:mike@myvessellog.com">Contact</a>
-  </div>
-</footer>
+<footer class="site-footer"><div class="wrap footer-row"><a class="brand" href="#top"><svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="#10283c" stroke="#53c4d8"/><circle cx="20" cy="9" r="2.4" fill="#e0a535"/><path d="M20 11.5V31M13.5 17h13M11.5 24.5c2.5 5 14.5 5 17 0" stroke="#53c4d8" stroke-width="1.7" stroke-linecap="round"/></svg><span class="brand-name">My Vessel<small>BOAT APPS</small></span></a><div>© 2026 My Vessel Apps · Carnivora Ltd · Auckland, New Zealand</div><div class="footer-links"><a href="#products">Products</a><a href="#pricing">Pricing</a><a href="mailto:mike@myvessellog.com">Contact</a></div></div></footer>
 
+<div class="toast" id="stripeToast" role="status" aria-live="polite"></div>
+<script>
+document.querySelectorAll('[data-stripe-placeholder]').forEach(link=>{
+  link.addEventListener('click',event=>{
+    event.preventDefault();
+    const toast=document.getElementById('stripeToast');
+    toast.textContent='The Stripe payment link for '+link.dataset.stripePlaceholder+' still needs to be added.';
+    toast.classList.add('show');
+    clearTimeout(window.stripeToastTimer);
+    window.stripeToastTimer=setTimeout(()=>toast.classList.remove('show'),3500);
+  });
+});
+</script>
 </body>
 </html>
