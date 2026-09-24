@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare one-off pricing for My Vessel Log, My Helm New Zealand Edition and the My Vessel Complete bundle.">
+  <meta name="theme-color" content="#071725">
+  <title>Pricing — My Vessel Apps</title>
+  <link rel="icon" href="my-vessel-logo.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap header-row">
+    <a class="brand" href="index.html" aria-label="My Vessel Apps home"><img src="my-vessel-logo.svg" alt=""><span class="brand-copy">My Vessel<small>BOAT APPS</small></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open navigation">☰</button>
+    <nav class="page-tabs" aria-label="Primary navigation"><a href="index.html">Home</a><a href="maintenance.html">Maintenance Log</a><a href="helm.html">My Helm NZ</a><a href="pricing.html" aria-current="page">Pricing</a></nav>
+  </div></header>
+
+  <main id="main">
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head center"><div class="eyebrow">One-off pricing · US dollars</div><h1>Choose one.<br><span class="accent">Or complete the set.</span></h1><p class="lead">No subscription and no ongoing fees. My Vessel Log is available worldwide; My Helm and the bundle are currently intended for New Zealand boat owners.</p></div>
+        <div class="price-grid">
+          <article class="card price-card">
+            <span class="tag tag-world">Available worldwide</span><h2>My Vessel Log</h2><div class="price-for">Maintenance and trip log</div><div class="price"><sup>US$</sup>29</div><div class="once">One-off payment</div>
+            <ul class="price-list"><li>Maintenance dashboard</li><li>Engine hours and service schedules</li><li>Trip log and parts inventory</li><li>Works fully offline once loaded</li><li>Backup and restore</li></ul>
+            <!-- STRIPE PLACEHOLDER — MAINTENANCE: replace href="#" with the My Vessel Log Stripe payment link and remove data-stripe-placeholder. Set Stripe success URL to https://myvessellog.com/welcome.html -->
+            <a class="btn btn-secondary" href="#" data-stripe-placeholder="My Vessel Log">Buy My Vessel Log</a><div class="placeholder-note">Stripe payment link to be added</div>
+          </article>
+
+          <article class="card price-card">
+            <span class="tag tag-nz">New Zealand Edition</span><h2>My Helm</h2><div class="price-for">Navigation companion</div><div class="price"><sup>US$</sup>29</div><div class="once">One-off payment</div>
+            <ul class="price-list"><li>GPS position, speed and course</li><li>LINZ NZ reference charts</li><li>Adjustable Anchor Watch</li><li>Saved Places and proximity alerts</li><li>Backup and restore</li></ul>
+            <!-- STRIPE PLACEHOLDER — HELM: replace href="#" with the My Helm Stripe payment link and remove data-stripe-placeholder. Set Stripe success URL to https://myvessellog.com/welcome-helm.html -->
+            <a class="btn btn-secondary" href="#" data-stripe-placeholder="My Helm — New Zealand Edition">Buy My Helm</a><div class="placeholder-note">Stripe payment link to be added</div>
+          </article>
+
+          <article class="card price-card featured">
+            <div class="best">Best value · save US$9</div><span class="tag tag-nz">New Zealand bundle</span><h2>My Vessel Complete</h2><div class="price-for">Both apps</div><div class="price"><sup>US$</sup>49</div><div class="once">One-off payment</div>
+            <ul class="price-list"><li>Everything in My Vessel Log</li><li>Everything in My Helm NZ Edition</li><li>Separate links for both apps</li><li>Use on phone, tablet or computer</li><li>Best for New Zealand boat owners</li></ul>
+            <!-- STRIPE PLACEHOLDER — BUNDLE: replace href="#" with the My Vessel Complete Stripe payment link and remove data-stripe-placeholder. Set Stripe success URL to https://myvessellog.com/welcome-complete.html -->
+            <a class="btn btn-primary" href="#" data-stripe-placeholder="My Vessel Complete">Buy both apps</a><div class="placeholder-note">Stripe payment link to be added</div>
+          </article>
+        </div>
+        <p class="pricing-note">The three purchase buttons are deliberately inactive until the new Stripe Payment Links are inserted. This prevents an old or incorrect checkout from being used.</p>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="wrap"><div class="section-head center"><div class="eyebrow">Compare availability</div><h2>Which option is right for you?</h2></div>
+        <div class="detail-grid">
+          <article class="card detail-card"><span class="tag tag-world">Worldwide</span><h3 style="margin-top:18px">Choose Maintenance Log</h3><p>Best if you want to organise service schedules, engine hours, parts, costs and voyages—wherever your boat is based.</p><div class="btn-row"><a class="btn btn-secondary" href="maintenance.html">View maintenance</a></div></article>
+          <article class="card detail-card"><span class="tag tag-nz">New Zealand</span><h3 style="margin-top:18px">Choose My Helm</h3><p>Best if you already have a maintenance system and want the navigation companion, Saved Places and Anchor Watch.</p><div class="btn-row"><a class="btn btn-secondary" href="helm.html">View My Helm</a></div></article>
+          <article class="card detail-card"><span class="tag tag-nz">New Zealand</span><h3 style="margin-top:18px">Choose Complete</h3><p>Best if you want both tools and prefer the bundle saving: US$49 instead of US$58 when purchased separately.</p><div class="btn-row"><a class="btn btn-secondary" href="index.html#choose">Compare products</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap"><div class="section-head center"><div class="eyebrow">Payment and access</div><h2>Good to know.</h2></div>
+        <div class="faq-list">
+          <details><summary>Are these subscriptions?</summary><p>No. Each price is a one-off payment with no monthly or annual fee.</p></details>
+          <details><summary>How do I receive the app?</summary><p>After payment, Stripe sends you to the matching welcome page where you can open the purchased app and follow the home-screen setup instructions.</p></details>
+          <details><summary>Can I purchase the bundle outside New Zealand?</summary><p>My Vessel Log is available worldwide, but the current bundle includes My Helm New Zealand Edition. The bundle is therefore intended for boat owners using New Zealand waters.</p></details>
+          <details><summary>Where is my app data stored?</summary><p>Your records and Saved Places are stored locally in your device's browser. Use each app's Backup and Restore tools to keep a safe copy or move data.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap footer-row"><a class="brand" href="index.html"><img src="my-vessel-logo.svg" alt=""><span class="brand-copy">My Vessel<small>BOAT APPS</small></span></a><div>© <span data-year>2026</span> My Vessel Apps · Carnivora Ltd · Auckland, New Zealand</div><div class="footer-links"><a href="index.html">Home</a><a href="maintenance.html">Maintenance</a><a href="helm.html">Helm NZ</a><a href="mailto:mike@myvessellog.com">Contact</a></div></div></footer>
+  <div class="toast" id="stripeToast" role="status" aria-live="polite"></div>
+  <script src="site.js"></script>
+</body>
+</html>

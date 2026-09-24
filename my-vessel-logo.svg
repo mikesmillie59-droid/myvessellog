@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">My Vessel anchor logo</title>
+  <desc id="desc">A teal anchor inside a teal circle with a brass navigation point.</desc>
+  <g fill="none" stroke="#53c4d8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="128" cy="128" r="106" stroke-width="9"/>
+    <path d="M128 76v123" stroke-width="11"/>
+    <path d="M91 110h74" stroke-width="11"/>
+    <path d="M69 153c3 33 28 54 59 54s56-21 59-54" stroke-width="11"/>
+  </g>
+  <path d="M63 146l5 28 21-19-26-9Z" fill="#53c4d8"/>
+  <path d="M193 146l-5 28-21-19 26-9Z" fill="#53c4d8"/>
+  <circle cx="128" cy="51" r="8" fill="#e0a535"/>
+</svg>

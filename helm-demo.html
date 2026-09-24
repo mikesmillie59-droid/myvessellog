@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#071725">
+  <title>My Helm Safe Demonstration</title>
+  <link rel="icon" href="my-vessel-logo.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="helm-demo.css">
+</head>
+<body class="demo-page">
+  <div class="demo-warning">Demonstration only · simulated information · not for navigation</div>
+  <header><div class="wrap demo-top"><a class="brand" href="index.html"><img src="my-vessel-logo.svg" alt=""><span class="brand-copy">My Vessel<small>BOAT APPS</small></span></a><div class="demo-top-actions"><a href="helm.html">← Back to My Helm</a><a class="btn btn-primary" href="pricing.html">View pricing</a></div></div></header>
+
+  <main class="demo-shell">
+    <section class="demo-map" id="demoMap" aria-label="Simulated map display">
+      <div class="land land-a"></div><div class="land land-b"></div><div class="land land-c"></div><div class="land land-d"></div>
+      <span class="depth d1">12</span><span class="depth d2">7</span><span class="depth d3">18</span><span class="depth d4">9</span>
+      <svg class="route-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="16,79 24,70 33,63 42,56 51,49 60,43 69,36 78,28"/></svg>
+      <div class="anchor-zone" id="anchorZone" aria-hidden="true"><span class="anchor-pin">⚓</span></div>
+
+      <button class="place-marker waypoint" data-cat="waypoint" data-name="Waiheke waypoint" data-x="33" data-y="63" style="left:33%;top:63%" aria-label="Waiheke waypoint"><span class="symbol">W</span><span class="label">Waiheke waypoint</span></button>
+      <button class="place-marker hazard" data-cat="hazard" data-name="Rock off Pine Harbour" data-x="51" data-y="49" style="left:51%;top:49%" aria-label="Rock off Pine Harbour hazard"><span class="symbol"><span>!</span></span><span class="label">Rock off Pine Harbour</span></button>
+      <button class="place-marker fishing" data-cat="fishing" data-name="Kawau Bay fishing spot" data-x="69" data-y="36" style="left:69%;top:36%" aria-label="Kawau Bay fishing spot"><span class="symbol">F</span><span class="label">Kawau Bay fishing spot</span></button>
+      <button class="place-marker waypoint" data-cat="waypoint" data-name="Home marina" data-x="22" data-y="74" style="left:22%;top:74%" aria-label="Home marina waypoint"><span class="symbol">W</span><span class="label">Home marina</span></button>
+
+      <div class="boat" id="demoBoat" style="left:16%;top:79%;transform:rotate(-40deg)" aria-label="Simulated boat position"><span class="boat-tag">SIMULATED BOAT</span></div>
+      <div class="scale">1 km</div><div class="map-note">Stylised sample map—not a LINZ chart. No device location is requested.</div><div class="demo-toast" id="demoToast" role="status" aria-live="polite"></div>
+    </section>
+
+    <aside class="demo-panel" aria-label="My Helm simulated controls">
+      <div class="app-title"><strong>My Helm</strong><span>SAFE DEMO</span></div>
+      <div class="sim-status"><strong>● Simulated GPS on</strong><br>Example route at 8 knots</div>
+      <div class="data-grid"><div class="data-cell"><small>Speed</small><b>8.0 kn</b></div><div class="data-cell"><small>Course</small><b id="courseReadout">041°</b></div><div class="data-cell"><small>Position</small><b id="positionReadout">SAMPLE</b></div><div class="data-cell"><small>Nearest</small><b id="nearestReadout">—</b></div></div>
+      <div class="control-row"><button class="primary" id="startDemo" type="button">Start</button><button id="pauseDemo" type="button">Pause</button><button id="resetDemo" type="button">Reset</button></div>
+
+      <section class="panel-section"><h2>Saved Places</h2><p>Filters control both the map and this list. Enabled simulated proximity alerts remain active for hidden places.</p>
+        <div class="filter-grid" role="group" aria-label="Saved Places filters"><button class="active" type="button" data-filter="all">All</button><button type="button" data-filter="waypoint">Waypoints</button><button type="button" data-filter="hazard">Hazards</button><button type="button" data-filter="fishing">Fishing spots</button></div>
+        <div class="saved-list">
+          <div class="saved-item" data-cat="waypoint"><span class="saved-dot"></span><div><strong>Waiheke waypoint</strong><small>Waypoint · alert at 200 m</small></div></div>
+          <div class="saved-item" data-cat="hazard"><span class="saved-dot"></span><div><strong>Rock off Pine Harbour</strong><small>Hazard · alert at 200 m</small></div></div>
+          <div class="saved-item" data-cat="fishing"><span class="saved-dot"></span><div><strong>Kawau Bay fishing spot</strong><small>Fishing spot · alert at 200 m</small></div></div>
+          <div class="saved-item" data-cat="waypoint"><span class="saved-dot"></span><div><strong>Home marina</strong><small>Waypoint · alert at 150 m</small></div></div>
+        </div>
+      </section>
+
+      <section class="panel-section"><h2>Anchor Watch</h2><p>Independent of Saved Places filters.</p><div class="anchor-card"><div class="anchor-head"><strong id="anchorStatus">Anchor Watch active</strong><button class="anchor-toggle active" id="anchorToggle" type="button">Active</button></div><div class="radius-row"><input id="radiusSlider" type="range" min="50" max="250" step="10" value="120" aria-label="Simulated anchor swing limit"><output id="radiusOutput">120 m</output></div></div></section>
+      <section class="panel-section"><h2>Demonstration log</h2><div class="demo-log" id="demoLog" aria-live="polite"><div class="log-entry">Ready. Press Start to move the simulated boat.</div></div></section>
+      <div class="demo-disclaimer">This demonstration uses fictional coordinates and a stylised map. It never requests GPS, notifications, audio, wake lock or persistent storage. My Helm is a supplementary reference aid, not a substitute for official charts, compliant navigation equipment, watchkeeping or a dedicated anchor alarm.</div>
+    </aside>
+  </main>
+  <script src="helm-demo.js"></script>
+</body>
+</html>
