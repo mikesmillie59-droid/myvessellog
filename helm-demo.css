@@ -6,7 +6,7 @@
 .demo-top-actions a { font-size: 12px; color: #c5d9e2; }
 .demo-top-actions a:hover { color: var(--teal); }
 .demo-shell { display: grid; grid-template-columns: minmax(0, 1fr) 330px; min-height: calc(100vh - 103px); border-top: 1px solid var(--line); }
-.demo-map { position: relative; min-height: 690px; overflow: hidden; background: #bce8ef url("my-helm-nz.png") left center / cover no-repeat; }
+.demo-map { position: relative; min-height: 690px; overflow: hidden; background: #bce8ef url("helm-demo-chart.png") center center / cover no-repeat; }
 .demo-map::before { content: "LINZ REFERENCE CHART · STATIC DEMO IMAGE"; position: absolute; left: 22px; top: 18px; color: #071725; background: rgba(243,250,251,.88); border: 1px solid rgba(7,23,37,.22); border-radius: 6px; padding: 5px 8px; font: 10px var(--mono); letter-spacing: .12em; z-index: 4; }
 .demo-map::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: rgba(239,250,252,.06); }
 .depth { position: absolute; color: rgba(10,74,92,.53); font: 11px var(--mono); }
@@ -29,7 +29,7 @@
 .boat { position: absolute; z-index: 10; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50% 50% 50% 8px; background: #166b84; border: 3px solid white; box-shadow: 0 5px 17px rgba(0,0,0,.35); transition: left .18s linear, top .18s linear, transform .18s linear; }
 .boat::after { content: ""; position: absolute; width: 7px; height: 7px; border-radius: 50%; background: white; left: 8px; top: 8px; }
 .boat-tag { position: absolute; top: 31px; left: 50%; transform: translateX(-50%); background: #071725; color: white; border-radius: 5px; padding: 3px 6px; font: 9px var(--mono); white-space: nowrap; }
-.anchor-zone { position: absolute; z-index: 3; width: 112px; height: 112px; left: 57%; top: 48%; transform: translate(-50%, -50%); border: 2px dashed #e0a535; background: rgba(224,165,53,.10); border-radius: 50%; }
+.anchor-zone { position: absolute; z-index: 3; width: 112px; height: 112px; left: 54%; top: 67%; transform: translate(-50%, -50%); border: 2px dashed #e0a535; background: rgba(224,165,53,.10); border-radius: 50%; }
 .anchor-zone.off { display: none; }
 .anchor-pin { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: #7d5509; font-size: 24px; }
 .scale { position: absolute; left: 18px; bottom: 17px; z-index: 5; color: #173d4d; font: 10px var(--mono); }

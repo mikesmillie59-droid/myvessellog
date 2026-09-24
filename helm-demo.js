@@ -1,7 +1,7 @@
 (function () {
   const route = [
-    [16, 79], [24, 70], [33, 63], [42, 56],
-    [51, 49], [60, 43], [69, 36], [78, 28]
+    [38, 82], [44, 75], [50, 69], [56, 62],
+    [62, 55], [68, 48], [74, 40], [81, 32]
   ];
   const boat = document.getElementById('demoBoat');
   const startButton = document.getElementById('startDemo');
@@ -87,7 +87,7 @@
         nearestDistance = distance;
         nearest = marker;
       }
-      if (distance < 3.3 && !alerted.has(marker.dataset.name)) {
+      if (marker.dataset.cat === 'hazard' && distance < 3.3 && !alerted.has(marker.dataset.name)) {
         alerted.add(marker.dataset.name);
         const hidden = activeFilter !== 'all' && activeFilter !== marker.dataset.cat;
         const message = 'SIMULATED ALERT: approaching ' + marker.dataset.name + (hidden ? ' (place is hidden by the current filter)' : '');
@@ -184,8 +184,7 @@
     soundButton.textContent = soundEnabled ? 'Sound on' : 'Sound off';
     soundButton.setAttribute('aria-pressed', String(soundEnabled));
     addLog('Spoken alerts turned ' + (soundEnabled ? 'on.' : 'off.'), false);
-    if (soundEnabled) speak('My Helm demonstration sound is on.');
-    else window.speechSynthesis.cancel();
+    if (!soundEnabled) window.speechSynthesis.cancel();
   });
   updateBoat();
 })();
