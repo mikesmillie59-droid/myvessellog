@@ -7,6 +7,7 @@
   const startButton = document.getElementById('startDemo');
   const pauseButton = document.getElementById('pauseDemo');
   const resetButton = document.getElementById('resetDemo');
+  const soundButton = document.getElementById('soundToggle');
   const courseReadout = document.getElementById('courseReadout');
   const nearestReadout = document.getElementById('nearestReadout');
   const positionReadout = document.getElementById('positionReadout');
@@ -25,7 +26,18 @@
   let timer = null;
   let activeFilter = 'all';
   let anchorActive = true;
+  let soundEnabled = false;
   const alerted = new Set();
+
+  function speak(message) {
+    if (!soundEnabled || !('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.rate = .92;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    window.speechSynthesis.speak(utterance);
+  }
 
   function addLog(message, isAlert) {
     const entry = document.createElement('div');
@@ -81,6 +93,7 @@
         const message = 'SIMULATED ALERT: approaching ' + marker.dataset.name + (hidden ? ' (place is hidden by the current filter)' : '');
         addLog(message, true);
         showToast(message);
+        speak('Warning. Approaching ' + marker.dataset.name + '.');
       }
     });
     nearestReadout.textContent = nearest ? Math.max(35, Math.round(nearestDistance * 70)) + ' m' : '—';
@@ -157,5 +170,22 @@
   startButton.addEventListener('click', start);
   pauseButton.addEventListener('click', function () { pause(); addLog('Simulation paused.', false); });
   resetButton.addEventListener('click', reset);
+  soundButton.addEventListener('click', function () {
+    if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+      soundEnabled = false;
+      soundButton.textContent = 'Unavailable';
+      soundButton.setAttribute('aria-pressed', 'false');
+      showToast('Spoken alerts are not supported by this browser.');
+      addLog('Spoken alerts are unavailable in this browser.', false);
+      return;
+    }
+    soundEnabled = !soundEnabled;
+    soundButton.classList.toggle('sound-on', soundEnabled);
+    soundButton.textContent = soundEnabled ? 'Sound on' : 'Sound off';
+    soundButton.setAttribute('aria-pressed', String(soundEnabled));
+    addLog('Spoken alerts turned ' + (soundEnabled ? 'on.' : 'off.'), false);
+    if (soundEnabled) speak('My Helm demonstration sound is on.');
+    else window.speechSynthesis.cancel();
+  });
   updateBoat();
 })();

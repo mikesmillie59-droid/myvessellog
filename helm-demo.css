@@ -6,13 +6,9 @@
 .demo-top-actions a { font-size: 12px; color: #c5d9e2; }
 .demo-top-actions a:hover { color: var(--teal); }
 .demo-shell { display: grid; grid-template-columns: minmax(0, 1fr) 330px; min-height: calc(100vh - 103px); border-top: 1px solid var(--line); }
-.demo-map { position: relative; min-height: 690px; overflow: hidden; background:
-  linear-gradient(rgba(8, 78, 98, .11) 1px, transparent 1px),
-  linear-gradient(90deg, rgba(8, 78, 98, .11) 1px, transparent 1px),
-  #bce8ef;
-  background-size: 46px 46px;
-}
-.demo-map::before { content: "TĀMAKI STRAIT · SIMULATED DISPLAY"; position: absolute; left: 22px; top: 18px; color: rgba(8,56,73,.58); font: 11px var(--mono); letter-spacing: .16em; z-index: 4; }
+.demo-map { position: relative; min-height: 690px; overflow: hidden; background: #bce8ef url("my-helm-nz.png") left center / cover no-repeat; }
+.demo-map::before { content: "LINZ REFERENCE CHART · STATIC DEMO IMAGE"; position: absolute; left: 22px; top: 18px; color: #071725; background: rgba(243,250,251,.88); border: 1px solid rgba(7,23,37,.22); border-radius: 6px; padding: 5px 8px; font: 10px var(--mono); letter-spacing: .12em; z-index: 4; }
+.demo-map::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: rgba(239,250,252,.06); }
 .depth { position: absolute; color: rgba(10,74,92,.53); font: 11px var(--mono); }
 .d1 { left: 40%; top: 24%; }.d2 { left: 64%; top: 64%; }.d3 { left: 21%; top: 51%; }.d4 { left: 77%; top: 19%; }
 .land { position: absolute; background: #d7bd73; border: 2px solid #526f4b; opacity: .92; }
@@ -48,9 +44,10 @@
 .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .data-cell { padding: 9px; border-radius: 8px; background: #0e202d; border: 1px solid var(--line); }
 .data-cell small { color: var(--muted); display: block; font-size: 9px; text-transform: uppercase; }.data-cell b { font: 14px var(--mono); }
-.control-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; margin: 13px 0 17px; }
+.control-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin: 13px 0 17px; }
 .control-row button, .filter-grid button, .anchor-toggle { min-height: 38px; border: 1px solid var(--line); border-radius: 8px; background: #293d4a; color: white; cursor: pointer; font-size: 11px; font-weight: 800; }
 .control-row button.primary { background: var(--orange); color: #111; border-color: transparent; }
+.control-row button.sound-on { background: var(--green); color: #10202a; border-color: transparent; }
 .control-row button:hover, .filter-grid button:hover, .anchor-toggle:hover { border-color: var(--teal); }
 .panel-section { padding: 16px 0; border-top: 1px solid var(--line); }
 .panel-section h2 { font-family: var(--body); font-size: 15px; letter-spacing: 0; margin: 0 0 10px; }
@@ -85,6 +82,7 @@
   .demo-warning { font-size: 9px; }
   .demo-top { min-height: 58px; }.demo-top .brand-copy { display: none; }
   .demo-map { min-height: 430px; }
+  .control-row { grid-template-columns: 1fr 1fr; }
   .place-marker .label { display: none; }
   .map-note { max-width: 190px; }
 }
