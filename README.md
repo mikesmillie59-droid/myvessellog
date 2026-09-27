@@ -6,7 +6,7 @@ This is the multi-page website for **My Vessel Apps**, hosted with GitHub Pages 
 
 - `index.html` — short umbrella-brand homepage.
 - `maintenance.html` — My Vessel Log product page and maintenance demo link.
-- `helm.html` — My Helm New Zealand Edition product page.
+- `helm.html` — My Helm product page (NZ and US charts).
 - `pricing.html` — US$29 / US$29 / US$49 pricing and Stripe placeholders.
 - `helm-demo.html` — safe simulated Helm demonstration using a static LINZ chart screenshot; it never requests GPS or triggers real alarms.
 - `welcome.html` — post-purchase page for My Vessel Log.
@@ -36,7 +36,7 @@ For each marked button:
 | Product | Price | Stripe success URL |
 | --- | ---: | --- |
 | My Vessel Log | US$29 one time | `https://myvessellog.com/welcome.html` |
-| My Helm — New Zealand Edition | US$29 one time | `https://myvessellog.com/welcome-helm.html` |
+| My Helm | US$29 one time | `https://myvessellog.com/welcome-helm.html` |
 | My Vessel Complete | US$49 one time | `https://myvessellog.com/welcome-complete.html` |
 
 Until those edits are made, a purchase-button click only displays a short “payment link still needs to be added” message.
