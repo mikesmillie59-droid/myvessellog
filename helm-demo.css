@@ -7,7 +7,7 @@
 .demo-top-actions a:hover { color: var(--teal); }
 .demo-shell { display: grid; grid-template-columns: minmax(0, 1fr) 330px; min-height: calc(100vh - 103px); border-top: 1px solid var(--line); }
 .demo-map { position: relative; min-height: 690px; overflow: hidden; background: #bce8ef url("helm-demo-chart.png") center center / cover no-repeat; }
-.demo-map::before { content: "LINZ REFERENCE CHART · STATIC DEMO IMAGE"; position: absolute; left: 22px; top: 18px; color: #071725; background: rgba(243,250,251,.88); border: 1px solid rgba(7,23,37,.22); border-radius: 6px; padding: 5px 8px; font: 10px var(--mono); letter-spacing: .12em; z-index: 4; }
+.demo-map::before { content: attr(data-label); position: absolute; left: 22px; top: 18px; color: #071725; background: rgba(243,250,251,.88); border: 1px solid rgba(7,23,37,.22); border-radius: 6px; padding: 5px 8px; font: 10px var(--mono); letter-spacing: .12em; z-index: 4; }
 .demo-map::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: rgba(239,250,252,.06); }
 .depth { position: absolute; color: rgba(10,74,92,.53); font: 11px var(--mono); }
 .d1 { left: 40%; top: 24%; }.d2 { left: 64%; top: 64%; }.d3 { left: 21%; top: 51%; }.d4 { left: 77%; top: 19%; }
@@ -86,3 +86,21 @@
   .place-marker .label { display: none; }
   .map-note { max-width: 190px; }
 }
+
+/* NZ / US chart switch */
+.demo-map.region-us { background-image: url("helm-demo-chart-us.jpg"); }
+.region-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 14px; }
+.region-switch button { min-height: 46px; border: 1px solid var(--line); border-radius: 8px; background: #293d4a; color: white; cursor: pointer; font-size: 12px; font-weight: 800; line-height: 1.2; }
+.region-switch button small { display: block; font-size: 9px; font-weight: 600; opacity: .8; margin-top: 2px; }
+.region-switch button.active { background: var(--teal); color: #071725; border-color: transparent; }
+.region-switch button:hover { border-color: var(--teal); }
+
+/* Keep the chart at its true shape so the boat, route and places line up with the chart picture */
+.demo-map, .demo-map.region-us { min-height: 0; height: auto; aspect-ratio: 1603 / 886; align-self: start; background-size: 100% 100%; position: sticky; top: 0; }
+.route-line polyline { vector-effect: non-scaling-stroke; stroke-width: 3; }
+@media (max-width: 880px) { .demo-map, .demo-map.region-us { min-height: 0; position: relative; } }
+@media (max-width: 540px) { .demo-map, .demo-map.region-us { min-height: 0; } .demo-map::before { font-size: 8px; left: 8px; top: 8px; } .map-note { display: none; } .scale { display: none; } }
+.anchor-zone { width: 11%; height: auto; aspect-ratio: 1; }
+.anchor-zone .anchor-pin { font-size: clamp(12px, 2.2vw, 26px); }
+.demo-toast { opacity: 0; visibility: hidden; transition: transform .25s, opacity .25s, visibility .25s; }
+.demo-toast.show { opacity: 1; visibility: visible; }

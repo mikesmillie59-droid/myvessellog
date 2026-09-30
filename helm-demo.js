@@ -1,8 +1,39 @@
 (function () {
-  const route = [
-    [38, 82], [44, 75], [50, 69], [56, 62],
-    [62, 55], [68, 48], [74, 40], [81, 32]
-  ];
+  // Two demo charts. Positions are percentages of the chart image (x across, y down).
+  const REGIONS = {
+    nz: {
+      name: 'New Zealand',
+      label: 'LINZ REFERENCE CHART · STATIC DEMO IMAGE',
+      mapLabel: 'Simulated boat route over a static LINZ reference chart screenshot of the Motutapu and Rakino area, Hauraki Gulf',
+      note: '<strong>Static LINZ reference chart screenshot.</strong><br>Crown copyright © LINZ · CC BY 4.0<br>Demonstration only—no live chart tiles or device location.',
+      route: [[38, 82], [44, 75], [50, 69], [56, 62], [62, 55], [68, 48], [74, 40], [81, 32]],
+      anchor: [54, 67],
+      ratio: '1603 / 886',
+      places: [
+        { cat: 'waypoint', name: 'Motutapu channel waypoint', x: 50, y: 69, info: 'Waypoint · display only' },
+        { cat: 'hazard', name: 'Rakino Channel hazard', x: 62, y: 55, info: 'Hazard · warning at 200 m' },
+        { cat: 'fishing', name: 'Rakino fishing spot', x: 74, y: 40, info: 'Fishing spot · display only' },
+        { cat: 'waypoint', name: 'Home waypoint', x: 44, y: 75, info: 'Waypoint · display only' }
+      ]
+    },
+    us: {
+      name: 'United States',
+      label: 'NOAA REFERENCE CHART · STATIC DEMO IMAGE',
+      mapLabel: 'Simulated boat route over a static NOAA reference chart screenshot of the San Diego Bay entrance',
+      note: '<strong>Static NOAA reference chart screenshot.</strong><br>Chart data: NOAA Office of Coast Survey<br>Demonstration only—no live chart tiles or device location.',
+      route: [[66.6, 92.5], [64.4, 85.5], [61.1, 74.1], [58.6, 64.4], [57.0, 54.7], [56.4, 45.6], [55.6, 36.5], [55.4, 27.9], [57.7, 20.5], [61.4, 14.8]],
+      anchor: [71.6, 63.9],
+      ratio: '1466 / 877',
+      places: [
+        { cat: 'waypoint', name: 'Channel entrance waypoint', x: 59.4, y: 69.6, info: 'Waypoint · display only' },
+        { cat: 'hazard', name: 'Zuniga Jetty hazard', x: 58.8, y: 51.9, info: 'Hazard · warning at 200 m' },
+        { cat: 'fishing', name: 'Point Loma kelp fishing spot', x: 47.0, y: 65.0, info: 'Fishing spot · display only' },
+        { cat: 'waypoint', name: 'Shelter Island waypoint', x: 60.0, y: 16.5, info: 'Waypoint · display only' }
+      ]
+    }
+  };
+  let region = 'nz';
+  let route = REGIONS.nz.route;
   const boat = document.getElementById('demoBoat');
   const startButton = document.getElementById('startDemo');
   const pauseButton = document.getElementById('pauseDemo');
@@ -13,8 +44,14 @@
   const positionReadout = document.getElementById('positionReadout');
   const log = document.getElementById('demoLog');
   const toast = document.getElementById('demoToast');
-  const markers = Array.from(document.querySelectorAll('.place-marker'));
-  const savedItems = Array.from(document.querySelectorAll('.saved-item'));
+  let markers = [];
+  let savedItems = [];
+  const demoMap = document.getElementById('demoMap');
+  const markerLayer = document.getElementById('markerLayer');
+  const savedList = document.getElementById('savedList');
+  const routeLine = document.getElementById('routeLine');
+  const mapNote = document.getElementById('mapNote');
+  const regionButtons = Array.from(document.querySelectorAll('[data-region]'));
   const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
   const anchorToggle = document.getElementById('anchorToggle');
   const anchorStatus = document.getElementById('anchorStatus');
@@ -144,9 +181,60 @@
     });
   });
 
-  markers.forEach(function (marker) {
-    marker.addEventListener('click', function () {
-      showToast(marker.dataset.name + ' · sample ' + marker.dataset.cat);
+  function escapeText(text) {
+    const span = document.createElement('span');
+    span.textContent = text;
+    return span.innerHTML;
+  }
+
+  function setRegion(key, announce) {
+    if (!REGIONS[key]) key = 'nz';
+    const r = REGIONS[key];
+    region = key;
+    route = r.route;
+    pause();
+    progress = 0;
+    alerted.clear();
+
+    demoMap.classList.toggle('region-us', key === 'us');
+    demoMap.style.aspectRatio = r.ratio;
+    demoMap.dataset.label = r.label;
+    demoMap.setAttribute('aria-label', r.mapLabel);
+    mapNote.innerHTML = r.note;
+    routeLine.setAttribute('points', r.route.map(function (p) { return p[0] + ',' + p[1]; }).join(' '));
+    anchorZone.style.left = r.anchor[0] + '%';
+    anchorZone.style.top = r.anchor[1] + '%';
+
+    markerLayer.innerHTML = r.places.map(function (p) {
+      const symbol = p.cat === 'hazard' ? '<span>!</span>' : (p.cat === 'fishing' ? 'F' : 'W');
+      return '<button class="place-marker ' + p.cat + '" type="button" data-cat="' + p.cat + '" data-name="' + escapeText(p.name) + '" data-x="' + p.x + '" data-y="' + p.y + '" style="left:' + p.x + '%;top:' + p.y + '%" aria-label="' + escapeText(p.name) + '"><span class="symbol">' + symbol + '</span><span class="label">' + escapeText(p.name) + '</span></button>';
+    }).join('');
+    savedList.innerHTML = r.places.map(function (p) {
+      return '<div class="saved-item" data-cat="' + p.cat + '"><span class="saved-dot"></span><div><strong>' + escapeText(p.name) + '</strong><small>' + escapeText(p.info) + '</small></div></div>';
+    }).join('');
+    markers = Array.from(markerLayer.querySelectorAll('.place-marker'));
+    savedItems = Array.from(savedList.querySelectorAll('.saved-item'));
+    markers.forEach(function (marker) {
+      marker.classList.toggle('filtered', activeFilter !== 'all' && marker.dataset.cat !== activeFilter);
+      marker.addEventListener('click', function () {
+        showToast(marker.dataset.name + ' · sample ' + marker.dataset.cat);
+      });
+    });
+    savedItems.forEach(function (item) { item.classList.toggle('filtered', activeFilter !== 'all' && item.dataset.cat !== activeFilter); });
+    regionButtons.forEach(function (b) {
+      const on = b.dataset.region === key;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    updateBoat();
+    if (announce) addLog('Switched to the ' + r.name + ' chart. Press Start to run the route.', false);
+  }
+
+  regionButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      if (button.dataset.region === region) return;
+      setRegion(button.dataset.region, true);
+      try { history.replaceState(null, '', '?region=' + button.dataset.region); } catch (err) { /* ignore */ }
     });
   });
 
@@ -162,9 +250,9 @@
   radiusSlider.addEventListener('input', function () {
     const metres = Number(radiusSlider.value);
     radiusOutput.textContent = metres + ' m';
-    const size = Math.round(112 * metres / 120);
-    anchorZone.style.width = size + 'px';
-    anchorZone.style.height = size + 'px';
+    const size = (11 * metres / 120).toFixed(2);
+    anchorZone.style.width = size + '%';
+    anchorZone.style.height = 'auto';
   });
 
   startButton.addEventListener('click', start);
@@ -186,5 +274,13 @@
     addLog('Spoken alerts turned ' + (soundEnabled ? 'on.' : 'off.'), false);
     if (!soundEnabled) window.speechSynthesis.cancel();
   });
-  updateBoat();
+  (function () {
+    let initial = 'nz';
+    try {
+      const q = new URLSearchParams(window.location.search).get('region');
+      if (q === 'us' || q === 'nz') initial = q;
+      else if (/^en-US$/i.test(navigator.language || '')) initial = 'us';
+    } catch (err) { /* keep NZ */ }
+    setRegion(initial, false);
+  })();
 })();

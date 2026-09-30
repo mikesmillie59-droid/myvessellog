@@ -347,3 +347,8 @@ h3 { line-height: 1.2; }
 .skipper-band h3 { font-size: 24px; margin-bottom: 8px; }
 .skipper-band p { color: var(--muted); margin: 0; max-width: 780px; }
 @media (max-width: 620px) { .skipper-band { grid-template-columns: 1fr; padding: 25px; gap: 16px; } .skipper-mark { width: 56px; height: 56px; } }
+
+/* Real app screenshots in a simple phone frame (home page app cards) */
+.choice-visual.phone-visual { display: flex; justify-content: center; align-items: flex-start; padding-top: 16px; background: radial-gradient(260px 180px at 50% 100%, rgba(83,196,216,.16), transparent 70%), #071824; }
+.phone-frame { width: 200px; border: 6px solid #22384a; border-bottom: 0; border-radius: 24px 24px 0 0; overflow: hidden; background: #0b1622; box-shadow: 0 14px 40px rgba(0,0,0,.35); }
+.phone-frame img { width: 100%; height: auto; }
